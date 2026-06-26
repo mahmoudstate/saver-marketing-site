@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saver | See what's safe to spend</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="See what’s safe to spend — and save calmly. 100% offline, no sign-up personal budgeting app.">
+    
+    <!-- Fonts: Inter & Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            darkBg: '#0C0D11',
+                            darkSurface: '#15161D',
+                            darkCard: '#1E1E28',
+                            darkText: '#E9E9F1',
+                            darkSec: '#8A8AA4',
+                            lightBg: '#F4F4F8',
+                            lightSurface: '#FFFFFF',
+                            lightText: '#2B2E35',
+                            lightSec: '#646773',
+                            mintDark: '#5FE3C0',
+                            mintLight: '#8af0d6',
+                            onAccent: '#06251F'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        arabic: ['Cairo', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(95, 227, 192, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- GSAP for Motion -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* Base & Accessibility */
+        body { background-color: theme('colors.brand.darkBg'); color: theme('colors.brand.darkText'); transition: background-color 0.3s, color 0.3s; }
+        .light body { background-color: theme('colors.brand.lightBg'); color: theme('colors.brand.lightText'); }
+        
+        /* Language Specific Styles */
+        :lang(ar) { font-family: 'Cairo', sans-serif; direction: rtl; line-height: 1.8; letter-spacing: 0; }
+        :lang(ar) .force-inter { font-family: 'Inter', sans-serif; direction: ltr; display: inline-block; }
+        
+        /* Tinted Icon Backgrounds */
+        .icon-tint { background: color-mix(in srgb, theme('colors.brand.mintDark') 15%, transparent); }
+        .light .icon-tint { background: color-mix(in srgb, theme('colors.brand.mintLight') 25%, transparent); }
+
+        /* Phone Mockup Styling */
+        .phone-mockup {
+            aspect-ratio: 9/19.5;
+            border-radius: 2.5rem;
+            border: 8px solid #1E1E28;
+            background-color: #15161D;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .light .phone-mockup { border-color: #E5E7EB; background-color: #FFFFFF; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); }
+        .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 40%; height: 24px; background: #1E1E28; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; z-index: 10;}
+        .light .phone-notch { background: #E5E7EB; }
+
+        /* Respect Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+        }
+    </style>
+</head>
+<body class="antialiased font-sans overflow-x-hidden selection:bg-brand-mintDark selection:text-brand-onAccent">
+
+    <!-- Developer Toggles (For Preview Only) -->
+    <div class="fixed bottom-4 right-4 z-50 flex gap-2 bg-brand-darkCard p-2 rounded-full border border-gray-800 shadow-glow">
+        <button onclick="toggleTheme()" class="px-4 py-2 text-sm font-medium rounded-full bg-brand-darkSurface text-brand-darkText hover:text-brand-mintDark transition">🌓 Theme</button>
+        <button onclick="toggleLanguage()" class="px-4 py-2 text-sm font-medium rounded-full bg-brand-darkSurface text-brand-darkText hover:text-brand-mintDark transition">🌐 EN/AR</button>
+    </div>
+
+    <!-- 1. Navbar -->
+    <nav class="fixed w-full z-40 top-0 border-b border-white/5 bg-brand-darkBg/80 backdrop-blur-md transition-colors light:bg-brand-lightBg/80 light:border-black/5">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <!-- Placeholder Logo -->
+                <div class="w-8 h-8 rounded-lg bg-brand-mintDark flex items-center justify-center text-brand-onAccent font-bold text-xl">S</div>
+                <span class="font-bold text-xl tracking-tight">Saver</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-brand-darkSec light:text-brand-lightSec">
+                <a href="#features" class="hover:text-brand-darkText transition">Features</a>
+                <a href="#pricing" class="hover:text-brand-darkText transition">Pricing</a>
+                <a href="#guides" class="hover:text-brand-darkText transition">Guides</a>
+                <a href="#about" class="hover:text-brand-darkText transition">About</a>
+            </div>
+            <button class="bg-brand-mintDark text-brand-onAccent px-5 py-2.5 rounded-xl font-semibold text-sm hover:opacity-90 transition transform hover:scale-105 shadow-glow">Try free</button>
+        </div>
+    </nav>
+
+    <!-- 2. Hero Section -->
+    <section class="relative pt-40 pb-20 overflow-hidden" id="hero-section">
+        <!-- Background Glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-mintDark/5 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            <div class="hero-content z-10">
+                <div class="hero-el inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-darkSurface border border-white/5 text-xs font-medium text-brand-darkSec mb-6 light:bg-brand-lightSurface light:border-black/5">
+                    <span class="w-2 h-2 rounded-full bg-brand-mintDark"></span>
+                    <span id="hero-badge">Offline · No sign-up · Private</span>
+                </div>
+                
+                <h1 class="hero-el text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6" id="hero-title">
+                    See what’s <span class="text-brand-mintDark">safe to spend</span> — and save calmly.
+                </h1>
+                
+                <p class="hero-el text-lg text-brand-darkSec light:text-brand-lightSec mb-8 max-w-lg leading-relaxed" id="hero-sub">
+                    The 100% offline personal finance app that lives only on your device. Pay once, use it for life.
+                </p>
+                
+                <div class="hero-el flex flex-wrap gap-4">
+                    <button class="bg-brand-mintDark text-brand-onAccent px-6 py-3 rounded-xl font-semibold text-base hover:opacity-90 transition transform hover:scale-105 shadow-glow">Get started</button>
+                    <button class="bg-brand-darkSurface text-brand-darkText border border-white/10 px-6 py-3 rounded-xl font-semibold text-base hover:bg-white/5 transition light:bg-brand-lightSurface light:border-black/10 light:text-brand-lightText">See how it works</button>
+                </div>
+            </div>
+
+            <!-- Hero Phone Mockup -->
+            <div class="hero-mockup relative mx-auto w-full max-w-[320px]">
+                <div class="phone-mockup flex flex-col pt-12 px-6">
+                    <div class="phone-notch"></div>
+                    <!-- App UI Placeholder -->
+                    <div class="text-center mb-8">
+                        <p class="text-xs text-brand-darkSec mb-1">Safe to spend</p>
+                        <h2 class="text-4xl font-bold force-inter" id="live-balance">£0.00</h2>
+                    </div>
+                    <!-- Mockup Cards -->
+                    <div class="space-y-3">
+                        <div class="h-16 rounded-2xl bg-brand-darkCard border border-white/5 p-4 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-blue-500/20"></div>
+                                <div class="h-3 w-16 bg-white/20 rounded"></div>
+                            </div>
+                            <div class="h-3 w-12 bg-brand-mintDark/50 rounded"></div>
+                        </div>
+                        <div class="h-16 rounded-2xl bg-brand-darkCard border border-white/5 p-4 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-purple-500/20"></div>
+                                <div class="h-3 w-20 bg-white/20 rounded"></div>
+                            </div>
+                            <div class="h-3 w-14 bg-brand-mintDark/50 rounded"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Trust Bar -->
+    <section class="border-y border-white/5 py-8 light:border-black/5 bg-brand-darkSurface/50 light:bg-brand-lightSurface/50">
+        <div class="max-w-6xl mx-auto px-6 flex flex-wrap justify-center gap-x-12 gap-y-6 text-sm font-medium text-brand-darkSec light:text-brand-lightSec">
+            <div class="flex items-center gap-2"><svg class="w-5 h-5 text-brand-mintDark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414"/></svg> 100% Offline</div>
+            <div class="flex items-center gap-2"><svg class="w-5 h-5 text-brand-mintDark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/></svg> No tracking</div>
+            <div class="flex items-center gap-2"><svg class="w-5 h-5 text-brand-mintDark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg> Your device only</div>
+            <div class="flex items-center gap-2"><svg class="w-5 h-5 text-brand-mintDark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg> Pay once</div>
+        </div>
+    </section>
+
+    <!-- 4. Problem -> Solution -->
+    <section class="py-24 px-6 max-w-4xl mx-auto text-center scroll-reveal">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Finance apps make you feel guilty.<br><span class="text-brand-mintDark">Saver brings clarity.</span></h2>
+        <p class="text-brand-darkSec light:text-brand-lightSec text-lg mb-12 max-w-2xl mx-auto">Stop worrying about rigid budgets that break on day three. Know exactly what you can spend today without touching your upcoming bills or savings goals.</p>
+        
+        <div class="w-full h-64 md:h-96 rounded-[2rem] bg-brand-darkSurface border border-white/5 flex items-center justify-center overflow-hidden relative shadow-lg">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-darkBg to-transparent z-10"></div>
+            <!-- Landscape App Mockup Placeholder -->
+            <div class="w-[120%] md:w-[80%] h-full mt-24 rounded-t-3xl border-t-8 border-x-8 border-[#1E1E28] bg-[#15161D] flex flex-col p-8 gap-4">
+                <div class="h-8 w-1/3 bg-brand-mintDark/20 rounded"></div>
+                <div class="flex gap-4">
+                     <div class="h-24 flex-1 bg-brand-darkCard rounded-2xl"></div>
+                     <div class="h-24 flex-1 bg-brand-darkCard rounded-2xl"></div>
+                     <div class="h-24 flex-1 bg-brand-darkCard rounded-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Feature Grid -->
+    <section class="py-24 bg-brand-darkSurface/30 light:bg-brand-lightSurface/50" id="features">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Everything you need. Nothing you don't.</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="feature-card bg-brand-darkCard light:bg-brand-lightSurface p-8 rounded-[2rem] border border-white/5 light:border-black/5 hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 rounded-2xl icon-tint flex items-center justify-center text-brand-mintDark mb-6">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Safe to spend</h3>
+                    <p class="text-brand-darkSec light:text-brand-lightSec text-sm mb-6">See exactly what you can spend, not just your balance.</p>
+                    <div class="h-32 bg-brand-darkBg light:bg-brand-lightBg rounded-xl border border-white/5 mt-auto"></div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="feature-card bg-brand-darkCard light:bg-brand-lightSurface p-8 rounded-[2rem] border border-white/5 light:border-black/5 hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 rounded-2xl icon-tint flex items-center justify-center text-orange-500 mb-6">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Bills & Installments</h3>
+                    <p class="text-brand-darkSec light:text-brand-lightSec text-sm mb-6">Never miss a payment with recurring bills and reminders.</p>
+                    <div class="h-32 bg-brand-darkBg light:bg-brand-lightBg rounded-xl border border-white/5 mt-auto"></div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="feature-card bg-brand-darkCard light:bg-brand-lightSurface p-8 rounded-[2rem] border border-white/5 light:border-black/5 hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 rounded-2xl icon-tint flex items-center justify-center text-purple-500 mb-6">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Savings Goals</h3>
+                    <p class="text-brand-darkSec light:text-brand-lightSec text-sm mb-6">Freeze money for your goals so you don't spend it by accident.</p>
+                    <div class="h-32 bg-brand-darkBg light:bg-brand-lightBg rounded-xl border border-white/5 mt-auto"></div>
+                </div>
+
+                 <!-- Card 4 -->
+                 <div class="feature-card bg-brand-darkCard light:bg-brand-lightSurface p-8 rounded-[2rem] border border-white/5 light:border-black/5 hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 rounded-2xl icon-tint flex items-center justify-center text-blue-500 mb-6">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Budgets & Projects</h3>
+                    <p class="text-brand-darkSec light:text-brand-lightSec text-sm mb-6">Control your spending with clear limits and visual rings.</p>
+                    <div class="h-32 bg-brand-darkBg light:bg-brand-lightBg rounded-xl border border-white/5 mt-auto"></div>
+                </div>
+
+                 <!-- Card 5 -->
+                 <div class="feature-card bg-brand-darkCard light:bg-brand-lightSurface p-8 rounded-[2rem] border border-white/5 light:border-black/5 hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 rounded-2xl icon-tint flex items-center justify-center text-yellow-500 mb-6">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Custom Categories</h3>
+                    <p class="text-brand-darkSec light:text-brand-lightSec text-sm mb-6">Organize your expenses visually with custom icons and colors.</p>
+                    <div class="h-32 bg-brand-darkBg light:bg-brand-lightBg rounded-xl border border-white/5 mt-auto"></div>
+                </div>
+
+                 <!-- Card 6 -->
+                 <div class="feature-card bg-brand-darkCard light:bg-brand-lightSurface p-8 rounded-[2rem] border border-white/5 light:border-black/5 hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 rounded-2xl icon-tint flex items-center justify-center text-red-400 mb-6">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Visual Breakdown</h3>
+                    <p class="text-brand-darkSec light:text-brand-lightSec text-sm mb-6">See exactly where your money goes with colored progress bars.</p>
+                    <div class="h-32 bg-brand-darkBg light:bg-brand-lightBg rounded-xl border border-white/5 mt-auto"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. How it works -->
+    <section class="py-24 px-6 max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center scroll-reveal">How it works</h2>
+        
+        <div class="grid md:grid-cols-3 gap-12 text-center">
+            <div class="scroll-reveal">
+                <div class="w-16 h-16 rounded-full bg-brand-darkCard border border-white/5 flex items-center justify-center text-2xl font-bold text-brand-mintDark mx-auto mb-6 force-inter">1</div>
+                <h3 class="text-xl font-bold mb-3">Install instantly</h3>
+                <p class="text-brand-darkSec text-sm">Add Saver to your home screen directly from your browser. No app store needed.</p>
+            </div>
+            <div class="scroll-reveal" style="transition-delay: 100ms;">
+                <div class="w-16 h-16 rounded-full bg-brand-darkCard border border-white/5 flex items-center justify-center text-2xl font-bold text-brand-mintDark mx-auto mb-6 force-inter">2</div>
+                <h3 class="text-xl font-bold mb-3">Add your accounts</h3>
+                <p class="text-brand-darkSec text-sm">Enter your current balances. Everything stays strictly on your device.</p>
+            </div>
+            <div class="scroll-reveal" style="transition-delay: 200ms;">
+                <div class="w-16 h-16 rounded-full bg-brand-darkCard border border-white/5 flex items-center justify-center text-2xl font-bold text-brand-mintDark mx-auto mb-6 force-inter">3</div>
+                <h3 class="text-xl font-bold mb-3">Track calmly</h3>
+                <p class="text-brand-darkSec text-sm">Log expenses in seconds. Instantly see your true safe-to-spend number.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Privacy Block -->
+    <section class="py-12 px-6">
+        <div class="max-w-5xl mx-auto bg-brand-mintDark/10 border border-brand-mintDark/20 rounded-[2.5rem] p-12 md:p-16 text-center relative overflow-hidden">
+            <!-- Decorative Icon -->
+            <svg class="absolute -right-10 -bottom-10 w-64 h-64 text-brand-mintDark/10 pointer-events-none" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1.5L2.25 6v6c0 5.55 3.84 10.74 9.75 12 5.91-1.26 9.75-6.45 9.75-12V6L12 1.5z"/></svg>
+            
+            <h2 class="text-3xl md:text-5xl font-bold mb-6 text-brand-mintDark">Your data is yours alone.</h2>
+            <p class="text-lg md:text-xl text-brand-darkText max-w-2xl mx-auto leading-relaxed">Saver is 100% offline. Zero tracking, zero ads, zero data collection. Back up your data anytime with a simple JSON export.</p>
+        </div>
+    </section>
+
+    <!-- 8. Bilingual & Multi-currency -->
+    <section class="py-24 px-6 overflow-hidden">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div class="order-2 md:order-1 relative h-[500px] flex justify-center parallax-group">
+                <!-- Dual Mockups Side by Side -->
+                <div class="phone-mockup absolute left-10 md:-left-10 top-0 transform -rotate-6 scale-90 opacity-80 z-0"></div>
+                <div class="phone-mockup absolute right-10 md:-right-10 top-10 transform rotate-6 scale-90 z-10 shadow-2xl">
+                    <div class="phone-notch"></div>
+                    <!-- RTL Arabic UI Mockup -->
+                    <div class="w-full h-full p-6 pt-16 flex flex-col items-end text-right font-arabic" dir="rtl">
+                        <p class="text-xs text-brand-darkSec mb-1">القابل للصرف</p>
+                        <h2 class="text-3xl font-bold mb-8 force-inter">£1,450.00</h2>
+                        <div class="w-full h-12 bg-brand-darkCard rounded-xl mb-3"></div>
+                        <div class="w-full h-12 bg-brand-darkCard rounded-xl"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-1 md:order-2 scroll-reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Speaks your language.<br>Tracks your currency.</h2>
+                <p class="text-brand-darkSec light:text-brand-lightSec text-lg mb-8">Fully native Arabic (RTL) and English (LTR) experiences. Support for EGP, GBP, USD, EUR, SAR, AED, KWD, and more.</p>
+                <div class="flex gap-4 text-2xl font-bold text-brand-mintDark opacity-50 force-inter">
+                    <span>£</span> <span>$</span> <span>€</span> <span>ر.س</span> <span>د.إ</span> <span>ج.م</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. Pricing -->
+    <section class="py-24 px-6 bg-brand-darkSurface/30 light:bg-brand-lightSurface/50" id="pricing">
+        <div class="max-w-md mx-auto text-center scroll-reveal">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Pay once.<br>Use it for life.</h2>
+            <p class="text-brand-darkSec light:text-brand-lightSec mb-10">No monthly subscriptions draining your account.</p>
+            
+            <div class="bg-brand-darkCard light:bg-brand-lightSurface border border-brand-mintDark/30 rounded-[2.5rem] p-10 relative shadow-glow">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-mintDark text-brand-onAccent px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+                    Free Trial [X] Days
+                </div>
+                <div class="text-5xl font-bold mb-2 force-inter">[Price]</div>
+                <p class="text-brand-darkSec text-sm mb-8">Lifetime access on your account</p>
+                
+                <ul class="text-left space-y-4 mb-8 text-sm">
+                    <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-mintDark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> All features included</li>
+                    <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-mintDark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> All future updates</li>
+                    <li class="flex items-center gap-3"><svg class="w-5 h-5 text-brand-mintDark" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> No monthly fees</li>
+                </ul>
+                
+                <button class="w-full bg-brand-mintDark text-brand-onAccent py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition shadow-glow">Try free</button>
+                <p class="text-xs text-brand-darkSec mt-4">No credit card required.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. FAQ Placeholder -->
+    <section class="py-24 px-6 max-w-3xl mx-auto scroll-reveal">
+        <h2 class="text-3xl font-bold mb-12 text-center">Frequent Questions</h2>
+        <div class="space-y-4">
+            <div class="bg-brand-darkSurface light:bg-brand-lightSurface border border-white/5 rounded-2xl p-6">
+                <h3 class="font-bold">Is Saver really 100% offline?</h3>
+                <p class="text-brand-darkSec text-sm mt-2">Yes. Saver operates completely offline. Your financial data is stored locally on your device's browser storage.</p>
+            </div>
+            <div class="bg-brand-darkSurface light:bg-brand-lightSurface border border-white/5 rounded-2xl p-6">
+                <h3 class="font-bold">How do I back up my data?</h3>
+                <p class="text-brand-darkSec text-sm mt-2">You can export your entire database as a secure JSON file at any time, and import it to restore your data.</p>
+            </div>
+            <!-- More FAQs... -->
+        </div>
+    </section>
+
+    <!-- 13. Final CTA -->
+    <section class="py-24 px-6 text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8">Ready to save calmly?</h2>
+        <button class="bg-brand-mintDark text-brand-onAccent px-8 py-4 rounded-2xl font-bold text-lg hover:opacity-90 transition transform hover:scale-105 shadow-glow inline-flex items-center gap-3">
+            Add Saver to your screen
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        </button>
+    </section>
+
+    <!-- 14. Footer -->
+    <footer class="border-t border-white/5 py-12 px-6 bg-brand-darkSurface light:bg-brand-lightSurface">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-8 mb-12">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-6 h-6 rounded bg-brand-mintDark flex items-center justify-center text-brand-onAccent font-bold text-sm">S</div>
+                    <span class="font-bold tracking-tight">Saver</span>
+                </div>
+                <p class="text-brand-darkSec text-sm">The offline personal finance app.</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4">Product</h4>
+                <ul class="space-y-2 text-sm text-brand-darkSec">
+                    <li><a href="#features" class="hover:text-brand-mintDark transition">Features</a></li>
+                    <li><a href="#pricing" class="hover:text-brand-mintDark transition">Pricing</a></li>
+                    <li><a href="#" class="hover:text-brand-mintDark transition">Download</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4">Resources</h4>
+                <ul class="space-y-2 text-sm text-brand-darkSec">
+                    <li><a href="#" class="hover:text-brand-mintDark transition">Guides</a></li>
+                    <li><a href="#" class="hover:text-brand-mintDark transition">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-4">Contact</h4>
+                <ul class="space-y-2 text-sm text-brand-darkSec">
+                    <li><a href="mailto:hello@savertrack.app" class="hover:text-brand-mintDark transition">hello@savertrack.app</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 text-xs text-brand-darkSec">
+            <p>&copy; 2026 Saver. All rights reserved.</p>
+            <div class="mt-4 md:mt-0 flex gap-4">
+                <span>🌐 EN / AR</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Language Toggle Demo
+        let isArabic = false;
+        function toggleLanguage() {
+            isArabic = !isArabic;
+            const htmlTag = document.documentElement;
+            
+            if (isArabic) {
+                htmlTag.lang = 'ar';
+                document.getElementById('hero-badge').innerText = 'بلا إنترنت · بلا تسجيل · خصوصية تامة';
+                document.getElementById('hero-title').innerHTML = 'اعرف <span class="text-brand-mintDark">القابل للصرف</span> فعلاً — وادّخر بهدوء.';
+                document.getElementById('hero-sub').innerText = 'تطبيق الإدارة المالية الذي يعمل بلا إنترنت 100%. بياناتك لا تغادر جهازك. ادفع مرة واحدة، استخدمه مدى الحياة.';
+                document.querySelectorAll('.hero-content button')[0].innerText = 'ابدأ الآن';
+                document.querySelectorAll('.hero-content button')[1].innerText = 'كيف يعمل؟';
+            } else {
+                htmlTag.lang = 'en';
+                document.getElementById('hero-badge').innerText = 'Offline · No sign-up · Private';
+                document.getElementById('hero-title').innerHTML = 'See what’s <span class="text-brand-mintDark">safe to spend</span> — and save calmly.';
+                document.getElementById('hero-sub').innerText = 'The 100% offline personal finance app that lives only on your device. Pay once, use it for life.';
+                document.querySelectorAll('.hero-content button')[0].innerText = 'Get started';
+                document.querySelectorAll('.hero-content button')[1].innerText = 'See how it works';
+            }
+        }
+
+        // Theme Toggle Demo
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            document.documentElement.classList.toggle('light');
+        }
+
+        // GSAP Animations (respecting prefers-reduced-motion)
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        if (!prefersReducedMotion && typeof gsap !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero Stagger
+            gsap.from('.hero-el', {
+                y: 30, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out', delay: 0.2
+            });
+
+            // Hero Mockup float/parallax
+            gsap.from('.hero-mockup', {
+                y: 50, opacity: 0, duration: 1, ease: 'power3.out', delay: 0.4
+            });
+            gsap.to('.hero-mockup', {
+                y: 15, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut'
+            });
+
+            // Feature Cards Scroll Reveal
+            gsap.utils.toArray('.feature-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: { trigger: card, start: 'top 85%' },
+                    y: 40, opacity: 0, duration: 0.6, ease: 'power3.out'
+                });
+            });
+
+            // Scroll Reveal Generic
+            gsap.utils.toArray('.scroll-reveal').forEach(el => {
+                gsap.from(el, {
+                    scrollTrigger: { trigger: el, start: 'top 85%' },
+                    y: 30, opacity: 0, duration: 0.7, ease: 'power3.out'
+                });
+            });
+
+            // Live Balance Count-Up Simulation
+            let balanceObj = { val: 0 };
+            gsap.to(balanceObj, {
+                val: 1450.50,
+                duration: 2,
+                ease: 'power3.out',
+                delay: 1,
+                onUpdate: () => {
+                    document.getElementById('live-balance').innerText = `£${balanceObj.val.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+                }
+            });
+        } else if (prefersReducedMotion) {
+            // Fallback for reduced motion to just set the final balance state
+            document.getElementById('live-balance').innerText = `£1,450.50`;
+        }
+    </script>
+</body>
+</html>
