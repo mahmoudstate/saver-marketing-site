@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saver | See what's safe to spend</title>
+    <title>Saver | Spend clearly and save calmly</title>
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="See what’s safe to spend — and save calmly. 100% offline, no sign-up personal budgeting app.">
@@ -21,32 +21,31 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            // Dark Theme Tokens from saver-ui.css
-                            darkBg: '#0C0D11',
+                        saver: {
+                            // Dark Theme
+                            darkBg: 'color-mix(in srgb, #5FE3C0 8%, #0C0D11)',
                             darkSurface: '#15161D',
                             darkCard: '#1E1E28',
                             darkText: '#E9E9F1',
                             darkSec: '#8A8AA4',
                             darkBorder: '#26262F',
-                            darkTrack: '#24242E',
-                            // Light Theme Tokens from saver-ui.css
+                            // Light Theme
                             lightBg: '#F4F4F8',
                             lightSurface: '#FFFFFF',
+                            lightCard: '#FFFFFF',
                             lightText: '#2B2E35',
                             lightSec: '#646773',
                             lightBorder: '#E6E7EE',
-                            lightTrack: '#EBECF1',
-                            // Accent
-                            mint: '#5FE3C0',
-                            mintLight: '#8af0d6',
-                            onMint: '#06251F',
-                            // Semantic Dark
-                            redDark: '#F2766E', blueDark: '#60A5FA', yellowDark: '#FBBF24', 
-                            purpleDark: '#A78BFA', orangeDark: '#FB923C', greenDark: '#34D399',
-                            // Semantic Light
-                            redLight: '#E5544E', blueLight: '#2563EB', yellowLight: '#D97706', 
-                            purpleLight: '#7C3AED', orangeLight: '#EA580C', greenLight: '#0E9F6E',
+                            // Accents & Semantics
+                            ac: '#5FE3C0',
+                            ac2: '#8af0d6',
+                            onAc: '#06251F',
+                            red: '#F2766E',
+                            blue: '#60A5FA',
+                            yellow: '#FBBF24',
+                            purple: '#A78BFA',
+                            orange: '#FB923C',
+                            success: '#34D399',
                         }
                     },
                     fontFamily: {
@@ -54,15 +53,14 @@
                         arabic: ['Cairo', 'sans-serif']
                     },
                     boxShadow: {
-                        'cardLight': '0 1px 2px rgba(20,22,40,.04),0 6px 18px rgba(20,22,40,.05)',
+                        'cardLight': '0 1px 2px rgba(20,22,40,.04), 0 6px 18px rgba(20,22,40,.05)',
                         'navDark': '0 16px 40px rgba(0,0,0,.55)',
-                        'glow': '0 0 20px rgba(95, 227, 192, 0.15)',
+                        'elev': '0 22px 50px rgba(0,0,0,.5)',
                     },
                     borderRadius: {
                         'saver-md': '16px',
                         'saver-lg': '18px',
                         'saver-xl': '22px',
-                        'saver-2xl': '26px',
                     }
                 }
             }
@@ -75,37 +73,40 @@
 
     <style>
         /* Base & Accessibility */
-        body { background-color: theme('colors.brand.darkBg'); color: theme('colors.brand.darkText'); transition: background-color 0.4s, color 0.4s; }
-        .light body { background-color: theme('colors.brand.lightBg'); color: theme('colors.brand.lightText'); }
+        body { background-color: theme('colors.saver.darkBg'); color: theme('colors.saver.darkText'); transition: background-color 0.4s, color 0.4s; }
+        .light body { background-color: theme('colors.saver.lightBg'); color: theme('colors.saver.lightText'); }
         
         /* Language Specific Styles */
         :lang(ar) { font-family: 'Cairo', sans-serif; direction: rtl; line-height: 1.8; letter-spacing: 0; }
         :lang(ar) .force-inter { font-family: 'Inter', sans-serif; direction: ltr; display: inline-block; unicode-bidi: isolate; }
         
-        /* Saver Custom Gradients & Tints */
-        .hero-gradient { background: linear-gradient(155deg, color-mix(in srgb, #5FE3C0 40%, #fff) 0%, color-mix(in srgb, #5FE3C0 66%, #fff) 100%); }
+        /* Saver Custom UI Elements */
+        .hero-gradient { background: linear-gradient(155deg, color-mix(in srgb, theme('colors.saver.ac') 40%, #fff) 0%, color-mix(in srgb, theme('colors.saver.ac') 66%, #fff) 100%); }
         .hero-text { color: #1B332C; }
         .hero-sub { color: rgba(27,51,44,.80); }
         .hero-chip { background: rgba(255,255,255,.22); color: #1B332C; }
+        
+        .btn-primary { background: linear-gradient(135deg, theme('colors.saver.ac'), theme('colors.saver.ac2')); color: theme('colors.saver.onAc'); box-shadow: 0 1px 2px rgba(0,0,0,.10),inset 0 1px 0 rgba(255,255,255,.28); transition: transform 0.15s; }
+        .btn-primary:active, .btn-primary:hover { transform: scale(0.97); }
 
-        .icon-tint { background: color-mix(in srgb, currentColor 14%, transparent); }
+        .saver-card { background: theme('colors.saver.darkCard'); border: 1px solid theme('colors.saver.darkBorder'); border-radius: theme('colors.saver.xl'); transition: all 0.3s; }
+        .light .saver-card { background: theme('colors.saver.lightCard'); border: 1px solid theme('colors.saver.lightBorder'); box-shadow: theme('boxShadow.cardLight'); }
 
-        /* Phone Mockup Styling matching App Shell */
+        .icon-tint { background: color-mix(in srgb, currentColor 16%, transparent); }
+
+        /* Phone Mockup Styling */
         .phone-mockup {
             aspect-ratio: 9/19.5;
             border-radius: 44px;
-            border: 8px solid #08090C;
-            background-color: #0C0D11;
+            border: 12px solid #08090C;
+            background-color: theme('colors.saver.darkBg');
             overflow: hidden;
             position: relative;
             box-shadow: 0 44px 80px rgba(8,9,14,.42),0 14px 36px rgba(8,9,14,.28);
         }
-        .light .phone-mockup { border-color: #E7EAF0; background-color: #F4F4F8; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); }
-        .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 40%; height: 24px; background: #08090C; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; z-index: 10;}
+        .light .phone-mockup { border-color: #E7EAF0; background-color: theme('colors.saver.lightBg'); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); }
+        .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 35%; height: 24px; background: #08090C; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; z-index: 10;}
         .light .phone-notch { background: #E7EAF0; }
-
-        /* Button Gradients */
-        .btn-primary { background: linear-gradient(135deg, theme('colors.brand.mint'), theme('colors.brand.mintLight')); color: theme('colors.brand.onMint'); box-shadow: 0 1px 2px rgba(0,0,0,.10),inset 0 1px 0 rgba(255,255,255,.28); }
 
         /* Respect Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
@@ -113,87 +114,94 @@
         }
     </style>
 </head>
-<body class="antialiased font-sans overflow-x-hidden selection:bg-brand-mint selection:text-brand-onMint">
+<body class="antialiased font-sans overflow-x-hidden selection:bg-saver-ac selection:text-saver-onAc">
 
-    <!-- Developer Toggles (For Preview Only) -->
-    <div class="fixed bottom-4 right-4 z-50 flex gap-2 bg-brand-darkSurface p-2 rounded-full border border-brand-darkBorder shadow-glow">
-        <button onclick="toggleTheme()" class="px-4 py-2 text-sm font-bold rounded-full bg-brand-darkCard text-brand-darkText hover:text-brand-mint transition">🌓 Theme</button>
-        <button onclick="toggleLanguage()" class="px-4 py-2 text-sm font-bold rounded-full bg-brand-darkCard text-brand-darkText hover:text-brand-mint transition">🌐 EN/AR</button>
-    </div>
-
-    <!-- 1. Navbar -->
-    <nav class="fixed w-full z-40 top-0 border-b border-brand-darkBorder bg-brand-darkBg/80 backdrop-blur-md transition-colors light:bg-brand-lightBg/80 light:border-brand-lightBorder">
+    <!-- Navbar -->
+    <nav class="fixed w-full z-40 top-0 border-b border-saver-darkBorder bg-saver-darkBg/80 backdrop-blur-md transition-colors light:bg-saver-lightBg/80 light:border-saver-lightBorder">
         <div class="max-w-[1120px] mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg btn-primary flex items-center justify-center font-bold text-xl">S</div>
-                <span class="font-extrabold text-xl tracking-tight">Saver</span>
+            <div class="flex items-center gap-3">
+                <img src="./icon.png" alt="Saver Logo" class="w-8 h-8 rounded-lg shadow-sm">
+                <span class="font-extrabold text-[18px] tracking-tight">Saver</span>
             </div>
-            <div class="hidden md:flex gap-8 text-sm font-bold text-brand-darkSec light:text-brand-lightSec">
-                <a href="#features" class="hover:text-brand-darkText light:hover:text-brand-lightText transition">Features</a>
-                <a href="#pricing" class="hover:text-brand-darkText light:hover:text-brand-lightText transition">Pricing</a>
-                <a href="#guides" class="hover:text-brand-darkText light:hover:text-brand-lightText transition">Guides</a>
-                <a href="#about" class="hover:text-brand-darkText light:hover:text-brand-lightText transition">About</a>
+            <div class="hidden md:flex gap-8 text-[13px] font-bold text-saver-darkSec light:text-saver-lightSec">
+                <a href="#features" class="hover:text-saver-darkText light:hover:text-saver-lightText transition" data-en="Features" data-ar="المميزات">Features</a>
+                <a href="#pricing" class="hover:text-saver-darkText light:hover:text-saver-lightText transition" data-en="Pricing" data-ar="الأسعار">Pricing</a>
+                <a href="#faq" class="hover:text-saver-darkText light:hover:text-saver-lightText transition" data-en="FAQ" data-ar="الأسئلة الشائعة">FAQ</a>
             </div>
-            <button class="btn-primary px-5 py-2 rounded-saver-md font-extrabold text-sm hover:scale-[0.97] transition">Try free</button>
+            <div class="flex items-center gap-3">
+                <!-- Toggles for Preview -->
+                <button onclick="toggleLanguage()" class="text-xs font-bold text-saver-darkSec hover:text-saver-ac transition">🌐 EN/AR</button>
+                <button onclick="toggleTheme()" class="text-xs font-bold text-saver-darkSec hover:text-saver-ac transition mr-2">🌓 Theme</button>
+                <button class="btn-primary px-5 py-2.5 rounded-[12px] font-extrabold text-[13px]" data-en="Try free" data-ar="جرّب مجاناً">Try free</button>
+            </div>
         </div>
     </nav>
 
-    <!-- 2. Hero Section (Using saver-ui.css Hero Gradient) -->
+    <!-- Hero Section -->
     <section class="relative pt-32 pb-20 overflow-hidden" id="hero-section">
+        <!-- Accent Glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-saver-ac/5 rounded-full blur-[100px] -z-10 pointer-events-none"></div>
+
         <div class="max-w-[1120px] mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-            
             <div class="hero-content z-10">
-                <div class="hero-el inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-darkSurface border border-brand-darkBorder text-xs font-bold text-brand-darkSec mb-6 light:bg-brand-lightSurface light:border-brand-lightBorder">
-                    <span class="w-2 h-2 rounded-full bg-brand-mint"></span>
-                    <span id="hero-badge" class="tracking-wide uppercase">Offline · No sign-up · Private</span>
+                <div class="hero-el inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-saver-darkSurface border border-saver-darkBorder text-[11px] font-bold text-saver-darkSec mb-6 light:bg-saver-lightSurface light:border-saver-lightBorder tracking-wide uppercase">
+                    <span class="w-2 h-2 rounded-full bg-saver-ac"></span>
+                    <span data-en="Private & Offline" data-ar="على الجهاز فقط · خصوصية تامة">Private & Offline</span>
                 </div>
                 
-                <h1 class="hero-el text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.06] mb-6" id="hero-title">
-                    See what’s <span class="text-brand-mint">safe to spend</span> — and save calmly.
+                <h1 class="hero-el text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.06] mb-6">
+                    <span data-en="See what’s" data-ar="اعرف">See what’s</span> <span class="text-saver-ac" data-en="safe to spend" data-ar="القابل للصرف">safe to spend</span> <span data-en="— and save calmly." data-ar="فعلاً — وادّخر بهدوء.">— and save calmly.</span>
                 </h1>
                 
-                <p class="hero-el text-[17px] text-brand-darkSec light:text-brand-lightSec mb-8 max-w-lg font-medium" id="hero-sub">
+                <p class="hero-el text-[16px] text-saver-darkSec light:text-saver-lightSec mb-8 max-w-lg font-semibold leading-relaxed" data-en="The 100% offline personal finance app that lives only on your device. Pay once, use it for life." data-ar="تطبيق الإدارة المالية الذي يعمل بلا إنترنت 100%. بياناتك لا تغادر جهازك أبداً. ادفع مرة واحدة، واستخدمه مدى الحياة.">
                     The 100% offline personal finance app that lives only on your device. Pay once, use it for life.
                 </p>
                 
-                <div class="hero-el flex flex-wrap gap-4">
-                    <button class="btn-primary h-[52px] px-6 rounded-saver-md font-extrabold text-[15px] hover:scale-[0.97] transition">Get started</button>
-                    <button class="bg-brand-darkSurface text-brand-darkText border border-brand-darkBorder h-[52px] px-6 rounded-saver-md font-extrabold text-[15px] hover:bg-brand-darkCard transition light:bg-brand-lightSurface light:border-brand-lightBorder light:text-brand-lightText">See how it works</button>
+                <div class="hero-el flex flex-wrap gap-3">
+                    <button class="btn-primary h-[52px] px-6 rounded-[14px] font-extrabold text-[15px]" data-en="Get started" data-ar="ابدأ الآن">Get started</button>
+                    <button class="bg-saver-darkSurface text-saver-darkText border border-saver-darkBorder h-[52px] px-6 rounded-[14px] font-extrabold text-[15px] hover:bg-saver-darkCard transition light:bg-saver-lightSurface light:border-saver-lightBorder light:text-saver-lightText" data-en="See how it works" data-ar="كيف يعمل">See how it works</button>
                 </div>
             </div>
 
-            <!-- Hero Phone Mockup -->
-            <div class="hero-mockup relative mx-auto w-full max-w-[350px]">
-                <!-- Mimicking App Shell from ds.css -->
-                <div class="phone-mockup flex flex-col pt-12">
+            <!-- Hero Phone Mockup (Saver App Shell Replica) -->
+            <div class="hero-mockup relative mx-auto w-full max-w-[340px]">
+                <div class="phone-mockup flex flex-col">
                     <div class="phone-notch"></div>
-                    <!-- App UI Placeholder -->
-                    <div class="hero-gradient flex-shrink-0 pt-8 pb-10 px-6 rounded-b-[32px] text-center shadow-lg relative">
-                        <p class="text-[11.5px] font-bold tracking-[1.6px] uppercase hero-sub mb-2">Safe to spend</p>
-                        <h2 class="text-[38px] font-extrabold tracking-tight hero-text force-inter" id="live-balance">£0.00</h2>
-                        <!-- App Nav pills -->
-                        <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 flex gap-2">
-                           <div class="w-[56px] h-[56px] rounded-[19px] bg-brand-mint flex items-center justify-center text-brand-onMint font-bold text-2xl shadow-lg border-2 border-brand-darkSurface light:border-brand-lightSurface">+</div>
+                    
+                    <!-- App Hero Area (Safe to spend) -->
+                    <div class="hero-gradient flex-shrink-0 pt-16 pb-12 px-6 rounded-b-[32px] text-center relative">
+                        <p class="text-[11.5px] font-bold tracking-[1.6px] uppercase hero-sub mb-2" data-en="Safe to spend" data-ar="المتاح للصرف">Safe to spend</p>
+                        <h2 class="text-[46px] font-extrabold tracking-tight hero-text force-inter" id="live-balance">£0.00</h2>
+                        <!-- App Add Button (+) -->
+                        <div class="absolute -bottom-7 left-1/2 -translate-x-1/2">
+                           <div class="w-[56px] h-[56px] rounded-[19px] bg-saver-ac flex items-center justify-center text-saver-onAc font-bold text-3xl shadow-elev border-[3px] border-saver-darkBg light:border-saver-lightBg">+</div>
                         </div>
                     </div>
                     
-                    <!-- Mockup Cards inside app content area -->
-                    <div class="px-5 pt-10 space-y-3">
-                        <div class="bg-brand-darkSurface light:bg-brand-lightSurface border border-brand-darkBorder light:border-brand-lightBorder rounded-saver-lg p-3 flex items-center gap-3 shadow-cardLight dark:shadow-none">
-                            <div class="w-11 h-11 rounded-full bg-brand-blueDark/10 text-brand-blueDark flex items-center justify-center">🍔</div>
-                            <div class="flex-1">
-                                <div class="h-3.5 w-20 bg-brand-darkSec/30 light:bg-brand-lightSec/20 rounded mb-1"></div>
-                                <div class="h-2.5 w-12 bg-brand-darkSec/20 light:bg-brand-lightSec/10 rounded"></div>
+                    <!-- App Content Area -->
+                    <div class="px-5 pt-12 space-y-3 pb-8">
+                        <!-- Account Card Replica -->
+                        <div class="saver-card p-4 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-saver-blue/15 text-saver-blue flex items-center justify-center font-bold">M</div>
+                                <div>
+                                    <div class="text-[14.5px] font-bold">Main Account</div>
+                                    <div class="text-[12px] text-saver-darkSec light:text-saver-lightSec font-semibold mt-0.5">Available</div>
+                                </div>
                             </div>
-                            <div class="h-4 w-14 bg-brand-redDark/80 rounded force-inter"></div>
+                            <div class="text-[16px] font-extrabold tracking-tight force-inter">£1,250</div>
                         </div>
-                        <div class="bg-brand-darkSurface light:bg-brand-lightSurface border border-brand-darkBorder light:border-brand-lightBorder rounded-saver-lg p-3 flex items-center gap-3 shadow-cardLight dark:shadow-none">
-                            <div class="w-11 h-11 rounded-full bg-brand-purpleDark/10 text-brand-purpleDark flex items-center justify-center">🎬</div>
-                            <div class="flex-1">
-                                <div class="h-3.5 w-24 bg-brand-darkSec/30 light:bg-brand-lightSec/20 rounded mb-1"></div>
-                                <div class="h-2.5 w-16 bg-brand-darkSec/20 light:bg-brand-lightSec/10 rounded"></div>
+                        
+                        <!-- Goal Card Replica -->
+                        <div class="saver-card p-4 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-saver-ac/15 text-saver-ac flex items-center justify-center"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg></div>
+                                <div>
+                                    <div class="text-[14.5px] font-bold">Holiday Fund</div>
+                                    <div class="text-[12px] text-saver-darkSec light:text-saver-lightSec font-semibold mt-0.5">Frozen & safe</div>
+                                </div>
                             </div>
-                            <div class="h-4 w-12 bg-brand-redDark/80 rounded force-inter"></div>
+                            <div class="text-[16px] font-extrabold tracking-tight force-inter">£200</div>
                         </div>
                     </div>
                 </div>
@@ -201,8 +209,9 @@
         </div>
     </section>
 
-    <!-- 3. Trust Bar -->
-    <section class="border-y border-brand-darkBorder light:border-brand-lightBorder py-6 bg-brand-darkSurface/50 light:bg-brand-lightSurface/50">
-        <div class="max-w-[1120px] mx-auto px-6 flex flex-wrap justify-center gap-x-10 gap-y-4 text-[13px] font-bold text-brand-darkSec light:text-brand-lightSec">
-            <div class="flex items-center gap-2"><svg class="w-5 h-5 text-brand-mint" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414"/></svg> 100% Offline</div>
-            <div class="flex items-center gap-2"><svg class="w-5 h-5 text-brand-mint" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.54Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
+    <!-- Trust Bar -->
+    <section class="border-y border-saver-darkBorder light:border-saver-lightBorder py-5 bg-saver-darkSurface/30 light:bg-saver-lightSurface/30">
+        <div class="max-w-[1120px] mx-auto px-6 flex flex-wrap justify-center gap-x-12 gap-y-4 text-[13px] font-bold text-saver-darkSec light:text-saver-lightSec">
+            <div class="flex items-center gap-2"><svg class="w-5 h-5 text-saver-ac" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg> <span data-en="100% Offline" data-ar="يعمل بلا إنترنت 100%">100% Offline</span></div>
+            <div class="flex items-center gap-2"><svg class="w-5 h-5 text-saver-ac" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg> <span data-en="On your phone" data-ar="بياناتك على هاتفك فقط">On your phone</span></div>
+            <div class="flex items-center gap-2"><svg class="w-5 h-5 text-saver-ac" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7aNormally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
