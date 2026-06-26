@@ -1,0 +1,17 @@
+---
+// Language switcher — links to the same page in the other locale.
+import { altLangPath } from "../i18n/utils";
+import type { Lang } from "../i18n/ui";
+const { lang } = Astro.props as { lang: Lang };
+const to: Lang = lang === "ar" ? "en" : "ar";
+const href = altLangPath(Astro.url.pathname, to);
+const label = to === "ar" ? "العربية" : "English";
+---
+<a
+  href={href}
+  hreflang={to}
+  class="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-sm font-bold text-muted transition-colors hover:text-text"
+  aria-label={`Switch language to ${label}`}
+>
+  <span aria-hidden="true">🌐</span>{label}
+</a>

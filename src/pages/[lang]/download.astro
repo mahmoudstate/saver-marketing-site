@@ -1,0 +1,35 @@
+---
+// Download / Install (PWA "Add to Home Screen"). See §5 (/download).
+import Base from "../../layouts/Base.astro";
+import { useTranslations, locales } from "../../i18n/utils";
+import type { Lang } from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const ar = lang === "ar";
+
+const steps = ar
+  ? ["اضغط زر المشاركة في متصفّحك", "اختر «أضف إلى الشاشة الرئيسية»", "افتح Saver من شاشتك كتطبيق حقيقي"]
+  : ["Tap Share in your browser", "Choose “Add to Home Screen”", "Open Saver from your screen like a real app"];
+---
+<Base lang={lang} title={t("download.title")} description={t("download.desc")}>
+  <section class="mx-auto max-w-2xl px-5 py-20 text-center">
+    <h1 class="text-3xl font-extrabold tracking-tight md:text-4xl">
+      {ar ? "أضِف Saver إلى شاشتك الرئيسية" : "Add Saver to your home screen"}
+    </h1>
+    <p class="mt-4 text-lg font-semibold text-muted">
+      {ar ? "يفتح بملء الشاشة، تمامًا كتطبيق أصلي." : "It opens full screen, just like a native app."}
+    </p>
+    <ol class="mx-auto mt-10 max-w-md space-y-3 text-start">
+      {steps.map((s, i) => (
+        <li class="flex items-center gap-3 rounded-2xl border border-line bg-card p-4">
+          <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-ac font-extrabold text-ac-on">{i + 1}</span>
+          <span class="font-bold">{s}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>

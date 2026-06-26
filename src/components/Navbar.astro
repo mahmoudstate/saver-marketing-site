@@ -1,0 +1,35 @@
+---
+// Top navigation — logo, links, language switch, primary CTA.
+import LangSwitch from "./LangSwitch.astro";
+import { useTranslations } from "../i18n/utils";
+import type { Lang } from "../i18n/ui";
+const { lang } = Astro.props as { lang: Lang };
+const t = useTranslations(lang);
+const base = `/${lang}`;
+const links = [
+  { href: `${base}#features`, label: t("nav.features") },
+  { href: `${base}/pricing`, label: t("nav.pricing") },
+  { href: `${base}/about`, label: t("nav.about") },
+  { href: `${base}/download`, label: t("nav.download") },
+];
+---
+<header class="sticky top-0 z-50 border-b border-line/60 bg-bg/80 backdrop-blur">
+  <nav class="mx-auto flex max-w-6xl items-center gap-4 px-5 py-3">
+    <a href={base} class="flex items-center gap-2 font-extrabold tracking-tight">
+      <img src="/icon.png" alt="Saver" width="28" height="28" class="rounded-lg" />
+      <span>Saver</span>
+    </a>
+    <div class="mx-auto hidden items-center gap-6 md:flex">
+      {links.map((l) => (
+        <a href={l.href} class="text-sm font-bold text-muted transition-colors hover:text-text">{l.label}</a>
+      ))}
+    </div>
+    <div class="ms-auto flex items-center gap-3 md:ms-0">
+      <LangSwitch lang={lang} />
+      <a
+        href={`${base}/download`}
+        class="rounded-full bg-ac px-4 py-2 text-sm font-extrabold text-ac-on shadow-soft transition-transform hover:scale-[1.03]"
+      >{t("cta.try")}</a>
+    </div>
+  </nav>
+</header>

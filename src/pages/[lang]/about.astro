@@ -1,0 +1,29 @@
+---
+// About — story + mission (mirrors the app's About). See §9.
+import Base from "../../layouts/Base.astro";
+import { useTranslations, locales } from "../../i18n/utils";
+import type { Lang } from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const ar = lang === "ar";
+---
+<Base lang={lang} title={t("about.title")} description={t("about.desc")}>
+  <section class="mx-auto max-w-2xl px-5 py-20">
+    <h1 class="text-3xl font-extrabold tracking-tight md:text-4xl">{ar ? "من نحن" : "About us"}</h1>
+    <p class="mt-6 text-lg font-bold leading-relaxed">
+      {ar
+        ? "معظم تطبيقات المال جعلتنا نشعر أننا نفعل شيئاً خاطئاً. أردنا العكس."
+        : "Most money apps made us feel like we were doing something wrong. We wanted the opposite."}
+    </p>
+    <p class="mt-4 leading-relaxed text-muted">
+      {ar
+        ? "فبَنينا Saver ليكون كصديق هادئ يساندك. يُريك ما تفعله أموالك فعلاً، بكلمات بسيطة، ويساعدك على الادّخار بلا شعور بالذنب."
+        : "So we built Saver to feel like a calm friend who has your back. It shows you what your money is really doing, in plain words, and helps you save without the guilt."}
+    </p>
+    <p class="mt-8 text-sm font-bold text-faint">{ar ? "تطوير محمود" : "Powered by Mahmoud"} · hello@savertrack.app</p>
+  </section>
+</Base>

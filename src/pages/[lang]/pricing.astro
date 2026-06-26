@@ -1,0 +1,36 @@
+---
+// Pricing — "Pay once, use it for life" + free trial. Price/trial are TBD
+// (placeholders). See MARKETING_SITE_PLAN.md §8.
+import Base from "../../layouts/Base.astro";
+import { useTranslations, locales } from "../../i18n/utils";
+import type { Lang } from "../../i18n/ui";
+
+export function getStaticPaths() {
+  return locales.map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const ar = lang === "ar";
+---
+<Base lang={lang} title={t("pricing.title")} description={t("pricing.desc")}>
+  <section class="mx-auto max-w-2xl px-5 py-20 text-center">
+    <h1 class="text-3xl font-extrabold tracking-tight md:text-4xl">
+      {ar ? "ادفع مرة. استخدمه مدى الحياة." : "Pay once. Use it for life."}
+    </h1>
+    <p class="mt-4 text-lg font-semibold text-muted">
+      {ar ? "بلا اشتراك شهري. فترة تجربة مجانية." : "No monthly subscription. Free trial included."}
+    </p>
+
+    <div class="mx-auto mt-10 max-w-sm rounded-3xl border border-line bg-card p-8 shadow-soft">
+      <div class="text-5xl font-extrabold text-ac">[ —— ]</div>
+      <p class="mt-1 text-sm font-bold text-faint">{ar ? "السعر يُحدَّد قريبًا" : "Price — to be announced"}</p>
+      <ul class="mt-6 space-y-2 text-start text-sm font-semibold text-muted">
+        <li>✓ {ar ? "مدى الحياة على حسابك" : "Lifetime access on your account"}</li>
+        <li>✓ {ar ? "كل التحديثات مشمولة" : "All updates included"}</li>
+        <li>✓ {ar ? "تجربة مجانية — بلا بطاقة" : "Free trial — no card needed"}</li>
+        <li>✓ {ar ? "خصوصية تامة · يعمل بلا إنترنت" : "Fully private · works offline"}</li>
+      </ul>
+      <a href={`/${lang}/download`} class="mt-8 block rounded-full bg-ac px-6 py-3 font-extrabold text-ac-on">{t("cta.try")}</a>
+    </div>
+  </section>
+</Base>

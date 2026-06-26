@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Phase 1 pages. Each URL lists its en/ar alternates (hreflang). -->
+  <url>
+    <loc>https://savertrack.app/en/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://savertrack.app/en/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://savertrack.app/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://savertrack.app/en/"/>
+  </url>
+  <url>
+    <loc>https://savertrack.app/ar/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://savertrack.app/en/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://savertrack.app/ar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://savertrack.app/en/"/>
+  </url>
+  <url><loc>https://savertrack.app/en/pricing</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://savertrack.app/en/pricing"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://savertrack.app/ar/pricing"/></url>
+  <url><loc>https://savertrack.app/ar/pricing</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://savertrack.app/en/pricing"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://savertrack.app/ar/pricing"/></url>
+  <url><loc>https://savertrack.app/en/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://savertrack.app/en/about"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://savertrack.app/ar/about"/></url>
+  <url><loc>https://savertrack.app/ar/about</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://savertrack.app/en/about"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://savertrack.app/ar/about"/></url>
+  <url><loc>https://savertrack.app/en/privacy-policy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://savertrack.app/en/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://savertrack.app/ar/privacy-policy"/></url>
+  <url><loc>https://savertrack.app/ar/privacy-policy</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://savertrack.app/en/privacy-policy"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://savertrack.app/ar/privacy-policy"/></url>
+  <url><loc>https://savertrack.app/en/download</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://savertrack.app/en/download"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://savertrack.app/ar/download"/></url>
+  <url><loc>https://savertrack.app/ar/download</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://savertrack.app/en/download"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://savertrack.app/ar/download"/></url>
+</urlset>

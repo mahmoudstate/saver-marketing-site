@@ -1,0 +1,55 @@
+/* Saver brand tokens — mirrored from the app (saver-ui.css).
+   Light + dark surfaces via CSS variables; accent stays Mint in both. */
+
+/* Self-hosted fonts (copied from the app) */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cairo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/cairo-arabic.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+@font-face {
+  font-family: "Cairo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/cairo-latin.woff2") format("woff2");
+}
+
+:root {
+  /* Accent (Mint) */
+  --ac: #5fe3c0;
+  --ac2: #8af0d6;
+  --on-ac: #06251f;
+
+  /* Light surfaces */
+  --bg: #f4f4f8;
+  --surface: #ffffff;
+  --surface2: #f1f2f6;
+  --card: #ffffff;
+  --line: #e6e7ee;
+  --text: #2b2e35;
+  --muted: #646773;
+  --faint: #6b6f7b;
+}
+
+[data-theme="dark"] {
+  /* Dark surfaces (the app is dark-first) */
+  --bg: #0c0d11;
+  --surface: #15161d;
+  --surface2: #1e1e28;
+  --card: #1e1e28;
+  --line: #26262f;
+  --text: #e9e9f1;
+  --muted: #8a8aa4;
+  --faint: #8587a0;
+}

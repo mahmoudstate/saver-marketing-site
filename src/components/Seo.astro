@@ -1,0 +1,49 @@
+---
+// SEO head: canonical, hreflang alternates, Open Graph, Twitter, JSON-LD.
+import { hreflangs } from "../i18n/utils";
+import type { Lang } from "../i18n/ui";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+}
+const { lang, title, description } = Astro.props;
+const site = Astro.site ?? new URL("https://savertrack.app");
+const canonical = new URL(Astro.url.pathname, site).href;
+const alternates = hreflangs(Astro.url.pathname);
+const ogImage = new URL("/icon.png", site).href;
+
+// SoftwareApplication schema — rich result eligibility.
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Saver",
+  applicationCategory: "FinanceApplication",
+  operatingSystem: "Web, iOS, Android (PWA)",
+  description,
+  offers: { "@type": "Offer", category: "One-time purchase" },
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={new URL(a.href, site).href} />)}
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Saver" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content={lang === "ar" ? "ar_AR" : "en_GB"} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

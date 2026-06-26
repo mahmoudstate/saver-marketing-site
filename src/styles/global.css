@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./tokens.css";
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", "Cairo", system-ui, sans-serif;
+}
+
+/* Arabic / RTL — Cairo for Arabic, wider line-height, no letter-spacing.
+   Numbers stay Inter (Latin) even in Arabic. */
+:lang(ar),
+[dir="rtl"] {
+  font-family: "Inter", "Cairo", system-ui, sans-serif;
+  line-height: 1.8;
+  letter-spacing: 0;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Respect users who prefer less motion (matches the app). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
