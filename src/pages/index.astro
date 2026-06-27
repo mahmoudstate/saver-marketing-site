@@ -1,4 +1,13 @@
 ---
-// Root → default locale. (English is the canonical/default.)
+// Root -> default locale. (English is the canonical/default.)
 return Astro.redirect("/en/");
 ---
+
+<!doctype html>
+<html>
+  <head>
+    <!-- تحويل فوري للمتصفح كبديل احتياطي فوري يمنع الصفحة البيضاء -->
+    <meta http-equiv="refresh" content="0;url=/en/" />
+  </head>
+  <body></body>
+</html>
