@@ -1,11 +1,14 @@
 import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 
-// Saver marketing site — bilingual (EN default + AR), static, SEO-first.
+// Saver marketing site – bilingual (EN default + AR), static, SEO-first.
 // Update `site` to the live domain when DNS is ready.
 export default defineConfig({
   site: "https://savertrack.app",
   trailingSlash: "ignore",
+  redirects: {
+    "/": "/en/"
+  },
   i18n: {
     defaultLocale: "en",
     locales: ["en", "ar"],
