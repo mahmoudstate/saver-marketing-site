@@ -1,0 +1,19 @@
+---
+import Icon from "../Icon.astro";
+const { c } = Astro.props as { c: any };
+const f = c.faq;
+---
+<section class="sec wrap" id="faq">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">{f.eyebrow}</span>
+    <h2 class="l-h2 h2" style="margin-top:16px">{f.head}</h2>
+  </div>
+  <div class="faq-list reveal">
+    {f.items.map((it: any) => (
+      <div class="faq-q">
+        <button type="button"><span>{it.q}</span><span class="qi"><Icon name="plus" /></span></button>
+        <div class="faq-a"><p>{it.a}</p></div>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,13 @@
+---
+// Bottom tab bar shared by every mock screen. `active` picks the lit tab.
+import Icon from "../Icon.astro";
+const { active = "home" } = Astro.props as { active?: string };
+const tabs = ["home", "bars"];
+---
+<div class="scr-nav">
+  <span class={`ni ${active === "home" ? "on" : ""}`}><Icon name="home" /></span>
+  <span class={`ni ${active === "bars" ? "on" : ""}`}><Icon name="bars" /></span>
+  <span class="nfab"><Icon name="plus" /></span>
+  <span class={`ni ${active === "cog" ? "on" : ""}`}><Icon name="cog" /></span>
+  <span class={`ni ${active === "user" ? "on" : ""}`}><Icon name="user" /></span>
+</div>

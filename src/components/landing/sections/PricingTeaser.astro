@@ -1,0 +1,24 @@
+---
+import Icon from "../Icon.astro";
+import { PRICE } from "../../../i18n/landing";
+const { c, lang } = Astro.props as { c: any; lang: string };
+const p = c.pricing;
+const base = `/${lang}`;
+---
+<section class="sec wrap" id="pricing">
+  <div class="price-card reveal">
+    <div>
+      <span class="eyebrow">{p.eyebrow}</span>
+      <h2 class="l-h2 h2" style="font-size:clamp(1.8rem,3.4vw,2.8rem);margin-top:16px">{p.head}</h2>
+      <div class="price-tag"><span class="amt num">{PRICE}</span><span class="per">{p.per}</span></div>
+      <p class="price-anchor">{p.anchor}</p>
+      <div class="trial-badge"><Icon name="star" /><span>{p.trial}</span></div>
+      <div style="margin-top:28px"><a class="btn btn-primary" href={`${base}/pricing`}><span>{p.cta}</span><Icon name="arrow" class="dir" /></a></div>
+    </div>
+    <ul class="price-feats">
+      {p.feats.map((feat: string) => (
+        <li><span class="ck"><Icon name="check" /></span><span>{feat}</span></li>
+      ))}
+    </ul>
+  </div>
+</section>

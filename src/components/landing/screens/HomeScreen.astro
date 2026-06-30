@@ -1,0 +1,27 @@
+---
+// Home — the "safe to spend" hero screen. `live` adds the count-up hook id.
+import Icon from "../Icon.astro";
+import ScreenNav from "./ScreenNav.astro";
+const { s, live = false } = Astro.props as { s: Record<string, string>; live?: boolean };
+---
+<div class="scr-top">
+  <div><div class="scr-hi">{s.hi}</div><div class="scr-name">{s.name}</div></div>
+  <div class="scr-eye"><Icon name="eye" /></div>
+</div>
+<div class="sts">
+  <div class="sts-label"><Icon name="check" /><span>{s.sts}</span></div>
+  <div class="sts-amt"><span class="cur">£</span><span class="num" id={live ? "stsAmt" : undefined}>2,480</span></div>
+  <div class="sts-bar"><i style="width:62%"></i></div>
+  <div class="sts-sub"><span>{s.left}</span><span class="num">£1,520 {s.spent}</span></div>
+</div>
+<div class="scr-row2">
+  <div class="mini"><div class="mt"><Icon name="card" /><span>{s.balance}</span></div><div class="mv num">£8,240</div></div>
+  <div class="mini"><div class="mt"><Icon name="trend" /><span>{s.month}</span></div><div class="mv num" style="color:var(--success)">+£1,150</div></div>
+</div>
+<div class="scr-list">
+  <div class="recent">{s.recent}</div>
+  <div class="txn"><span class="ti tint-orange"><Icon name="bag" /></span><span class="tn"><span class="tt">{s.t1}</span><span class="td">{s.t1c}</span></span><span class="ta neg num">−£42.80</span></div>
+  <div class="txn"><span class="ti tint-ac"><Icon name="arrowup" /></span><span class="tn"><span class="tt">{s.t2}</span><span class="td">{s.t2c}</span></span><span class="ta pos num">+£2,400</span></div>
+  <div class="txn"><span class="ti tint-yellow"><Icon name="cup" /></span><span class="tn"><span class="tt">{s.t3}</span><span class="td">{s.t3c}</span></span><span class="ta neg num">−£3.50</span></div>
+</div>
+<ScreenNav active="home" />

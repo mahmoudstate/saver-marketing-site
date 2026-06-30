@@ -1,35 +1,41 @@
 ---
-// Top navigation — logo, links, language switch, primary CTA.
-import LangSwitch from "./LangSwitch.astro";
-import { useTranslations } from "../i18n/utils";
+// Top navigation — Calm Premium. Logo, section links, theme + language toggles,
+// primary CTA, mobile burger. Language is a real link (good for SEO/crawlers).
+import Icon from "./landing/Icon.astro";
+import { useTranslations, altLangPath } from "../i18n/utils";
 import type { Lang } from "../i18n/ui";
 const { lang } = Astro.props as { lang: Lang };
 const t = useTranslations(lang);
 const base = `/${lang}`;
+const to: Lang = lang === "ar" ? "en" : "ar";
+const langHref = altLangPath(Astro.url.pathname, to);
+const langLabel = to === "ar" ? "ع" : "EN";
 const links = [
   { href: `${base}#features`, label: t("nav.features") },
-  { href: `${base}/pricing`, label: t("nav.pricing") },
-  { href: `${base}/about`, label: t("nav.about") },
-  { href: `${base}/download`, label: t("nav.download") },
+  { href: `${base}#how`, label: lang === "ar" ? "كيف يعمل" : "How it works" },
+  { href: `${base}#privacy`, label: lang === "ar" ? "الخصوصية" : "Privacy" },
+  { href: `${base}#pricing`, label: t("nav.pricing") },
+  { href: `${base}#faq`, label: lang === "ar" ? "الأسئلة" : "FAQ" },
 ];
 ---
-<header class="sticky top-0 z-50 border-b border-line/60 bg-bg/80 backdrop-blur">
-  <nav class="mx-auto flex max-w-6xl items-center gap-4 px-5 py-3">
-    <a href={base} class="flex items-center gap-2 font-extrabold tracking-tight">
-      <img src="/icon.png" alt="Saver" width="28" height="28" class="rounded-lg" />
-      <span>Saver</span>
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href={base} aria-label="Saver home">
+      <span class="logo" aria-hidden="true"><Icon name="logo" /></span>
+      Saver
     </a>
-    <div class="mx-auto hidden items-center gap-6 md:flex">
-      {links.map((l) => (
-        <a href={l.href} class="text-sm font-bold text-muted transition-colors hover:text-text">{l.label}</a>
-      ))}
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      {links.map((l) => (<a href={l.href}>{l.label}</a>))}
+    </nav>
+    <div class="nav-actions">
+      <button class="toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+        <span id="themeIcon"><Icon name="moon" /></span>
+      </button>
+      <a class="toggle lang-t" href={langHref} hreflang={to} aria-label={`Switch language to ${to === "ar" ? "العربية" : "English"}`}>
+        <Icon name="globe" /><span>{langLabel}</span>
+      </a>
+      <a class="btn btn-primary btn-sm" href={`${base}/download`}>{t("cta.try")}</a>
+      <button class="toggle nav-burger" id="burger" type="button" aria-label="Menu"><Icon name="burger" /></button>
     </div>
-    <div class="ms-auto flex items-center gap-3 md:ms-0">
-      <LangSwitch lang={lang} />
-      <a
-        href={`${base}/download`}
-        class="rounded-full bg-ac px-4 py-2 text-sm font-extrabold text-ac-on shadow-soft transition-transform hover:scale-[1.03]"
-      >{t("cta.try")}</a>
-    </div>
-  </nav>
+  </div>
 </header>

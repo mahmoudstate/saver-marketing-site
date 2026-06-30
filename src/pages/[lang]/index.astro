@@ -1,11 +1,22 @@
 ---
-// Landing page (Phase 1) — one long-scroll page. Sections follow Section 6 of
-// MARKETING_SITE_PLAN.md. These are labelled placeholders; the Calm Premium
-// design (from Claude Design, "Saver" system) gets dropped into each section.
+// Landing page (Phase 1) — one long-scroll "Calm Premium" page, composed from
+// small per-section components (see MARKETING_SITE_PLAN.md §6).
 import Base from "../../layouts/Base.astro";
-import { useTranslations } from "../../i18n/utils";
-import { locales } from "../../i18n/utils";
+import { useTranslations, locales } from "../../i18n/utils";
+import { landing } from "../../i18n/landing";
 import type { Lang } from "../../i18n/ui";
+import Hero from "../../components/landing/sections/Hero.astro";
+import TrustBar from "../../components/landing/sections/TrustBar.astro";
+import ProblemSolution from "../../components/landing/sections/ProblemSolution.astro";
+import Features from "../../components/landing/sections/Features.astro";
+import HowItWorks from "../../components/landing/sections/HowItWorks.astro";
+import Privacy from "../../components/landing/sections/Privacy.astro";
+import Bilingual from "../../components/landing/sections/Bilingual.astro";
+import Gallery from "../../components/landing/sections/Gallery.astro";
+import Testimonials from "../../components/landing/sections/Testimonials.astro";
+import PricingTeaser from "../../components/landing/sections/PricingTeaser.astro";
+import Faq from "../../components/landing/sections/Faq.astro";
+import FinalCta from "../../components/landing/sections/FinalCta.astro";
 
 export function getStaticPaths() {
   return locales.map((lang) => ({ params: { lang } }));
@@ -13,35 +24,31 @@ export function getStaticPaths() {
 
 const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
+const c = landing(lang);
 
-// Section skeleton — id + heading. Fill with real design + copy next.
-const sections = [
-  { id: "hero", en: "Hero", ar: "الواجهة" },
-  { id: "trust", en: "Trust bar", ar: "شريط الثقة" },
-  { id: "problem", en: "Problem → Solution", ar: "المشكلة → الحل" },
-  { id: "features", en: "Feature grid", ar: "المميزات" },
-  { id: "how", en: "How it works", ar: "كيف يعمل" },
-  { id: "privacy", en: "Privacy", ar: "الخصوصية" },
-  { id: "bilingual", en: "Bilingual & multi-currency", ar: "لغتان وعملات متعددة" },
-  { id: "gallery", en: "Screenshot gallery", ar: "معرض اللقطات" },
-  { id: "testimonials", en: "Testimonials", ar: "آراء العملاء" },
-  { id: "pricing", en: "Pricing teaser", ar: "لمحة الأسعار" },
-  { id: "faq", en: "FAQ", ar: "الأسئلة الشائعة" },
-  { id: "cta", en: "Final CTA", ar: "الدعوة الأخيرة" },
-];
+// FAQPage structured data — eligible for the FAQ rich result in search.
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: c.faq.items.map((it: { q: string; a: string }) => ({
+    "@type": "Question",
+    name: it.q,
+    acceptedAnswer: { "@type": "Answer", text: it.a },
+  })),
+};
 ---
 <Base lang={lang} title={t("home.title")} description={t("home.desc")}>
-  <section class="mx-auto max-w-3xl px-5 py-20 text-center">
-    <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{t("site.tagline")}</h1>
-    <p class="mt-5 text-lg font-semibold text-muted">{t("home.desc")}</p>
-    <a href={`/${lang}/download`} class="mt-8 inline-block rounded-full bg-ac px-7 py-3 text-base font-extrabold text-ac-on shadow-soft">{t("cta.try")}</a>
-  </section>
-
-  {sections.slice(1).map((s) => (
-    <section id={s.id} class="mx-auto max-w-6xl scroll-mt-20 border-t border-line/40 px-5 py-16">
-      <p class="text-xs font-extrabold uppercase tracking-widest text-faint">Section · {s.id}</p>
-      <h2 class="mt-2 text-2xl font-extrabold">{lang === "ar" ? s.ar : s.en}</h2>
-      <p class="mt-3 text-sm text-muted">Placeholder — Calm Premium design + copy go here (see docs/MARKETING_SITE_PLAN.md §6).</p>
-    </section>
-  ))}
+  <Hero c={c} lang={lang} />
+  <TrustBar c={c} />
+  <ProblemSolution c={c} />
+  <Features c={c} lang={lang} />
+  <HowItWorks c={c} />
+  <Privacy c={c} />
+  <Bilingual c={c} />
+  <Gallery c={c} />
+  <Testimonials c={c} />
+  <PricingTeaser c={c} lang={lang} />
+  <Faq c={c} />
+  <FinalCta c={c} lang={lang} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 </Base>

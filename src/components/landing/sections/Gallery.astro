@@ -1,0 +1,25 @@
+---
+import Mock from "../Mock.astro";
+const { c } = Astro.props as { c: any };
+const g = c.gallery;
+---
+<section class="sec wrap" id="gallery">
+  <div class="sec-head reveal">
+    <span class="eyebrow">{g.eyebrow}</span>
+    <h2 class="l-h2 h2" style="margin-top:16px">{g.head}</h2>
+  </div>
+  <div class="gal-controls reveal">
+    <div class="seg" data-ctrl="theme">
+      <button class="on" data-val="dark">{g.dark}</button>
+      <button data-val="light">{g.light}</button>
+    </div>
+  </div>
+  <div class="gal-rail" id="galRail" data-stagger>
+    {g.items.map((it: any) => (
+      <div class="gal-item">
+        <Mock screen={it.screen} s={c.screen} pw="258px" ptheme="dark" />
+        <div class="gal-cap">{it.cap}</div>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,20 @@
+---
+import Icon from "../Icon.astro";
+const { c } = Astro.props as { c: any };
+const t = c.testimonials;
+---
+<section class="sec wrap" id="testimonials">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">{t.eyebrow}</span>
+    <h2 class="l-h2 h2" style="margin-top:16px">{t.head}</h2>
+  </div>
+  <div class="tst-grid" data-stagger>
+    {t.items.map((it: any) => (
+      <article class="tst">
+        <div class="stars">{[0,1,2,3,4].map(() => (<Icon name="star" />))}</div>
+        <p>{it.quote}</p>
+        <div class="who"><span class={`av ${it.tint}`}>{it.av}</span><span><b>{it.name}</b><span>{it.role}</span></span></div>
+      </article>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,12 @@
+---
+import Icon from "../Icon.astro";
+const { c } = Astro.props as { c: any };
+const icons = ["check", "notrack", "noads", "device", "coin"];
+---
+<section class="trust">
+  <div class="wrap trust-in" data-stagger>
+    {c.trust.map((label: string, i: number) => (
+      <span class="trust-item"><Icon name={icons[i]} /><b>{label}</b></span>
+    ))}
+  </div>
+</section>

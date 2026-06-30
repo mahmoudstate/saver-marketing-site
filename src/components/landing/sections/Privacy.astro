@@ -1,0 +1,23 @@
+---
+import Icon from "../Icon.astro";
+const { c } = Astro.props as { c: any };
+const p = c.privacy;
+const icons = ["offline", "collect", "device", "backup"];
+---
+<section class="privacy" id="privacy">
+  <div class="sec wrap">
+    <div class="priv-card reveal">
+      <div>
+        <div class="priv-shield"><Icon name="shield" /></div>
+        <span class="eyebrow">{p.eyebrow}</span>
+        <h2 class="l-h2 h2" style="margin-top:16px">{p.head}</h2>
+        <p class="muted" style="margin-top:18px;font-size:1.08rem">{p.sub}</p>
+      </div>
+      <div class="priv-list" data-stagger>
+        {p.items.map((it: any, i: number) => (
+          <div class="priv-item"><span class="pi"><Icon name={icons[i]} /></span><div><b>{it.t}</b><span>{it.d}</span></div></div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

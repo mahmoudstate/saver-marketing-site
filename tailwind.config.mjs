@@ -6,8 +6,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Brand accent (Mint) — primary CTA / active / positive
-        ac: { DEFAULT: "#5FE3C0", 2: "#8af0d6", on: "#06251F" },
+        // Brand accent (Mint) — primary CTA / active / positive.
+        // `ink` is the readable-on-surface accent (deep teal on light, mint on dark).
+        ac: { DEFAULT: "#5FE3C0", 2: "#8af0d6", on: "#06251F", ink: "var(--ac-ink)" },
         // Semantic (match the app)
         brand: {
           blue: "#2563EB",

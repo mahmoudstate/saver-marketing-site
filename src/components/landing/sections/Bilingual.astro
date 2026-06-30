@@ -1,0 +1,37 @@
+---
+import Phone from "../Phone.astro";
+import HomeScreen from "../screens/HomeScreen.astro";
+import { landing } from "../../../i18n/landing";
+const { c } = Astro.props as { c: any };
+const b = c.bilingual;
+// Show one English phone and one Arabic phone, side by side, regardless of page.
+const enS = landing("en").screen;
+const arS = landing("ar").screen;
+const currencies = [
+  { cc: "£", code: "GBP", name: "Pound" }, { cc: "$", code: "USD", name: "Dollar" },
+  { cc: "€", code: "EUR", name: "Euro" }, { cc: "ج.م", code: "EGP", name: "Pound" },
+  { cc: "ر.س", code: "SAR", name: "Riyal" }, { cc: "د.إ", code: "AED", name: "Dirham" },
+  { cc: "د.ك", code: "KWD", name: "Dinar" },
+];
+const loop = [...currencies, ...currencies];
+---
+<section class="sec wrap" id="bilingual">
+  <div class="bi-grid">
+    <div class="bi-copy reveal">
+      <span class="eyebrow">{b.eyebrow}</span>
+      <h2 class="l-h2 h2" style="margin-top:16px">{b.head}</h2>
+      <p class="muted" style="margin-top:18px;font-size:1.08rem">{b.sub}</p>
+      <div class="marquee">
+        <div class="marquee-row">
+          {loop.map((cu) => (
+            <span class="cur-chip"><span class="cc">{cu.cc}</span>{cu.code} <small>{cu.name}</small></span>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div class="bi-phones reveal" data-delay="0.1">
+      <Phone pw="228px" ptheme="dark" dir="ltr"><HomeScreen s={enS} /></Phone>
+      <Phone pw="228px" ptheme="light" dir="rtl"><HomeScreen s={arS} /></Phone>
+    </div>
+  </div>
+</section>

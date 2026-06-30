@@ -1,0 +1,41 @@
+---
+import Icon from "../Icon.astro";
+import Phone from "../Phone.astro";
+import HomeScreen from "../screens/HomeScreen.astro";
+const { c, lang } = Astro.props as { c: any; lang: string };
+const h = c.hero;
+const base = `/${lang}`;
+---
+<section class="hero wrap" id="hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow" data-hero>{h.eyebrow}</span>
+      <h1 data-hero>{h.h1a}<span class="ac">{h.h1b}</span>{h.h1c}</h1>
+      <p class="lead" data-hero>{h.lead}</p>
+      <div class="hero-cta" data-hero>
+        <a class="btn btn-primary" href={`${base}/download`}><Icon name="arrow" class="dir" /><span>{h.cta1}</span></a>
+        <a class="btn btn-ghost" href="#how"><Icon name="play" /><span>{h.cta2}</span></a>
+      </div>
+      <div class="hero-badges" data-hero>
+        <span class="hero-badge"><Icon name="check" /><span>{h.b1}</span></span>
+        <span class="hero-badge"><Icon name="check" /><span>{h.b2}</span></span>
+        <span class="hero-badge"><Icon name="check" /><span>{h.b3}</span></span>
+      </div>
+    </div>
+
+    <div class="hero-stage">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="float-card float-a" aria-hidden="true">
+        <span class="fc-ic tint-rose"><Icon name="clock" /></span>
+        <span><span class="fc-t">{c.features.items[1].t}</span><span class="fc-v num">{lang === "ar" ? "فاتورتان قريبًا" : "2 due soon"}</span></span>
+      </div>
+      <div class="float-card float-b" aria-hidden="true">
+        <span class="fc-ic tint-ac"><Icon name="target" /></span>
+        <span><span class="fc-t">{c.features.items[2].t}</span><span class="fc-v num">{c.screen.goalGo}</span></span>
+      </div>
+      <div id="heroPhone">
+        <Phone ptheme="dark"><HomeScreen s={c.screen} live={true} /></Phone>
+      </div>
+    </div>
+  </div>
+</section>

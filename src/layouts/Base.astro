@@ -1,36 +1,49 @@
 ---
 // Base layout: sets <html lang/dir>, fonts, theme, SEO head, nav + footer.
 import "../styles/global.css";
+import "../styles/landing.css";
 import Seo from "../components/Seo.astro";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
-import { dirFor, useTranslations } from "../i18n/utils";
+import { dirFor } from "../i18n/utils";
 import type { Lang } from "../i18n/ui";
 
 interface Props {
   lang: Lang;
   title: string;
   description: string;
+  noindex?: boolean;
 }
-const { lang, title, description } = Astro.props;
+const { lang, title, description, noindex = false } = Astro.props;
 const dir = dirFor(lang);
-const t = useTranslations(lang);
 ---
 
 <!doctype html>
-<html lang={lang} dir={dir} data-theme="dark">
+<html lang={lang} dir={dir} data-theme="dark" class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="/icon.png" />
+    {/* No-flash theme bootstrap — runs before paint. */}
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem("saver-theme") || "dark";
+          document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+      })();
+    </script>
     <Seo lang={lang} title={title} description={description} />
-    <meta name="robots" content="noindex, nofollow" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
   </head>
-  <body class="min-h-screen bg-bg text-text antialiased">
+  <body class="bg-bg text-text antialiased">
     <Navbar lang={lang} />
     <main>
       <slot />
     </main>
     <Footer lang={lang} />
+    <script>
+      import "../scripts/site.ts";
+    </script>
   </body>
 </html>

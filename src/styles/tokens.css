@@ -1,5 +1,10 @@
 /* Saver brand tokens — mirrored from the app (saver-ui.css).
-   Light + dark surfaces via CSS variables; accent stays Mint in both. */
+   Light + dark surfaces via CSS variables.
+   Accent = Mint. Two accent roles:
+     --ac      : FILL (buttons, gradients, bars) — pairs with --on-ac text.
+     --ac-ink  : INK on page surfaces (links, eyebrows, icon glyphs).
+                 On light, raw mint fails contrast (1.59:1 on white), so
+                 --ac-ink darkens to a deep teal (#0A7D68 ≈ 5:1 AA). */
 
 /* Self-hosted fonts (copied from the app) */
 @font-face {
@@ -25,31 +30,76 @@
   src: url("/fonts/cairo-latin.woff2") format("woff2");
 }
 
+/* ---------- Light (default) ---------- */
 :root {
   /* Accent (Mint) */
   --ac: #5fe3c0;
   --ac2: #8af0d6;
   --on-ac: #06251f;
+  --ac-ink: #0a7d68;            /* readable mint-teal on light surfaces (5:1 AA) */
+  --ac-glow: rgba(95, 227, 192, 0.28);
 
-  /* Light surfaces */
+  /* Surfaces */
   --bg: #f4f4f8;
   --surface: #ffffff;
   --surface2: #f1f2f6;
   --card: #ffffff;
   --line: #e6e7ee;
+  --hair: #eceef3;
+  --track: #ebecf1;
   --text: #2b2e35;
-  --muted: #646773;
-  --faint: #6b6f7b;
+  --muted: #5b5f6b;            /* nudged darker than app for AA body contrast */
+  --faint: #82868f;
+
+  /* Semantic (light variants tuned for contrast) */
+  --blue: #2563eb;
+  --purple: #7c3aed;
+  --orange: #ea580c;
+  --yellow: #d97706;
+  --red: #e5544e;
+  --rose: #db2777;
+  --sage: #0e9f6e;
+  --success: #0e9f6e;
+
+  /* Radii / shadows / layout */
+  --r-sm: 14px; --r: 18px; --r-lg: 22px; --r-xl: 28px;
+  --card-shadow: 0 1px 2px rgba(20, 22, 40, 0.04), 0 8px 24px rgba(20, 22, 40, 0.07);
+  --elev: 0 26px 60px rgba(20, 22, 40, 0.16);
+  --maxw: 1180px;
+
+  color-scheme: light;
 }
 
+/* ---------- Dark (app is dark-first) ---------- */
 [data-theme="dark"] {
-  /* Dark surfaces (the app is dark-first) */
+  --ac: #5fe3c0;
+  --ac2: #8af0d6;
+  --on-ac: #06251f;
+  --ac-ink: #5fe3c0;           /* bright mint reads great on dark (12:1) */
+  --ac-glow: rgba(95, 227, 192, 0.2);
+
   --bg: #0c0d11;
   --surface: #15161d;
-  --surface2: #1e1e28;
+  --surface2: #222231;
   --card: #1e1e28;
-  --line: #26262f;
+  --line: rgba(255, 255, 255, 0.075);
+  --hair: rgba(255, 255, 255, 0.06);
+  --track: #26283a;
   --text: #e9e9f1;
   --muted: #8a8aa4;
-  --faint: #8587a0;
+  --faint: #6b6f7b;
+
+  --blue: #86b5e6;
+  --purple: #c0a9e6;
+  --orange: #e6a98a;
+  --yellow: #e6c98a;
+  --red: #e5544e;
+  --rose: #f1aecb;
+  --sage: #93cfa8;
+  --success: #5fe3c0;
+
+  --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.28);
+  --elev: 0 28px 70px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
 }

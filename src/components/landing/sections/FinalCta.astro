@@ -1,0 +1,16 @@
+---
+import Icon from "../Icon.astro";
+const { c, lang } = Astro.props as { c: any; lang: string };
+const x = c.cta;
+const base = `/${lang}`;
+---
+<section class="cta-final sec" id="cta">
+  <div class="wrap cta-box reveal">
+    <h2 class="l-h2">{x.head}</h2>
+    <p>{x.sub}</p>
+    <div class="hero-cta" style="margin-top:36px">
+      <a class="btn btn-primary" href={`${base}/download`}><Icon name="download" /><span>{x.btn1}</span></a>
+      <a class="btn btn-ghost" href="#how"><span>{x.btn2}</span></a>
+    </div>
+  </div>
+</section>

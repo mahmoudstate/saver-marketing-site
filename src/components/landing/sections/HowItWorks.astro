@@ -1,0 +1,22 @@
+---
+import Mock from "../Mock.astro";
+const { c } = Astro.props as { c: any };
+const h = c.how;
+const screens = ["home", "budget", "breakdown"];
+---
+<section class="sec wrap" id="how">
+  <div class="sec-head center reveal">
+    <span class="eyebrow">{h.eyebrow}</span>
+    <h2 class="l-h2 h2" style="margin-top:16px">{h.head}</h2>
+  </div>
+  <div class="steps">
+    {h.steps.map((st: any, i: number) => (
+      <div class="step reveal" data-delay={`${i * 0.1}`}>
+        <span class="snum"></span>
+        <h3 class="l-h3">{st.t}</h3>
+        <p>{st.d}</p>
+        <div class="sphone"><Mock screen={screens[i]} s={c.screen} pw="230px" ptheme="dark" /></div>
+      </div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,17 @@
+---
+// Convenience: a phone showing a named real screen. Used by gallery / sections.
+import Phone from "./Phone.astro";
+import HomeScreen from "./screens/HomeScreen.astro";
+import BillsScreen from "./screens/BillsScreen.astro";
+import GoalScreen from "./screens/GoalScreen.astro";
+import BudgetScreen from "./screens/BudgetScreen.astro";
+import BreakdownScreen from "./screens/BreakdownScreen.astro";
+
+interface Props { screen: string; s: Record<string, string>; pw?: string; ptheme?: "dark" | "light"; dir?: "ltr" | "rtl"; }
+const { screen, s, pw, ptheme = "dark", dir } = Astro.props;
+const map: Record<string, any> = { home: HomeScreen, bills: BillsScreen, goal: GoalScreen, budget: BudgetScreen, breakdown: BreakdownScreen };
+const Screen = map[screen] ?? HomeScreen;
+---
+<Phone pw={pw} ptheme={ptheme} dir={dir}>
+  <Screen s={s} />
+</Phone>

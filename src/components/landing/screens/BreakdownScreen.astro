@@ -1,0 +1,20 @@
+---
+import Icon from "../Icon.astro";
+import ScreenNav from "./ScreenNav.astro";
+const { s } = Astro.props as { s: Record<string, string> };
+const rows = [
+  { name: s.bd1, amt: "£1,180", pct: "46%", fill: "fill-purple" },
+  { name: s.bd2, amt: "£640", pct: "25%", fill: "fill-orange" },
+  { name: s.bd3, amt: "£420", pct: "16%", fill: "fill-blue" },
+  { name: s.bd4, amt: "£330", pct: "13%", fill: "fill-rose" },
+];
+---
+<div class="scr-top"><div class="scr-sec-t">{s.bdTitle}</div><div class="scr-eye"><Icon name="chart" /></div></div>
+<div class="scr-list grow" style="display:flex;flex-direction:column;justify-content:center">
+  <div class="bd-list">
+    {rows.map((r) => (
+      <div class="bd-row"><div class="bd-top"><span>{r.name}</span><span class="num">{r.amt}</span></div><div class="bar"><i class={r.fill} style={`width:${r.pct}`}></i></div></div>
+    ))}
+  </div>
+</div>
+<ScreenNav active="bars" />

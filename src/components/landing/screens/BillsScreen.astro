@@ -1,0 +1,17 @@
+---
+import Icon from "../Icon.astro";
+import ScreenNav from "./ScreenNav.astro";
+const { s } = Astro.props as { s: Record<string, string> };
+const bills = [
+  { ic: "tint-rose", name: s.bill1, due: s.bill1c, amt: "£10.99" },
+  { ic: "tint-blue", name: s.bill2, due: s.bill2c, amt: "£24.00" },
+  { ic: "tint-orange", name: s.bill3, due: s.bill3c, amt: "£310" },
+];
+---
+<div class="scr-top"><div class="scr-sec-t">{s.billsTitle}</div><div class="scr-eye"><Icon name="bill" /></div></div>
+<div class="scr-list grow" style="display:flex;flex-direction:column;justify-content:center;gap:2px">
+  {bills.map((b) => (
+    <div class="txn"><span class={`ti ${b.ic}`}><Icon name="bill" /></span><span class="tn"><span class="tt">{b.name}</span><span class="td">{b.due}</span></span><span class="ta neg num">{b.amt}</span></div>
+  ))}
+</div>
+<ScreenNav active="bars" />

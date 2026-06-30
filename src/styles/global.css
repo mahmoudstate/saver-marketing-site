@@ -1,8 +1,10 @@
+/* tokens.css must come first — @import has to precede other rules, and it
+   defines the CSS variables Tailwind's bg-bg/text-text utilities resolve to. */
+@import "./tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import "./tokens.css";
 
 html {
   scroll-behavior: smooth;

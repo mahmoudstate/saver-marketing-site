@@ -1,0 +1,24 @@
+---
+import Icon from "../Icon.astro";
+import Phone from "../Phone.astro";
+import HomeScreen from "../screens/HomeScreen.astro";
+const { c } = Astro.props as { c: any };
+const p = c.problem;
+---
+<section class="sec wrap" id="problem">
+  <div class="ps-grid">
+    <div class="ps-text reveal">
+      <span class="eyebrow">{p.eyebrow}</span>
+      <p class="prob" style="margin-top:18px">{p.prob1}<span class="strike">{p.strike}</span>{p.prob2}</p>
+      <h2 class="l-h2" style="font-size:clamp(1.5rem,2.4vw,2rem);margin-top:28px">{p.solHead}</h2>
+      <div class="ps-sol">
+        {p.sol.map((it: any) => (
+          <div class="pt"><span class="ck"><Icon name="check" /></span><div><b>{it.t}</b><span>{it.d}</span></div></div>
+        ))}
+      </div>
+    </div>
+    <div class="ps-phone reveal" data-delay="0.1" style="display:grid;place-items:center">
+      <Phone pw="264px" ptheme="light"><HomeScreen s={c.screen} /></Phone>
+    </div>
+  </div>
+</section>

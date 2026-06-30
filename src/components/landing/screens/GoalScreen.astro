@@ -1,0 +1,22 @@
+---
+import Icon from "../Icon.astro";
+import ScreenNav from "./ScreenNav.astro";
+const { s } = Astro.props as { s: Record<string, string> };
+---
+<div class="scr-top"><div class="scr-sec-t">{s.goalTitle}</div><div class="scr-eye"><Icon name="target" /></div></div>
+<div class="scr-card" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px 14px">
+  <div class="ring-c">
+    <svg class="ring" viewBox="0 0 120 120">
+      <circle class="trk" cx="60" cy="60" r="50"></circle>
+      <circle class="val" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="69"></circle>
+    </svg>
+    <div class="lbl"><b>£2,340</b><span>{s.goalGo}</span></div>
+  </div>
+  <div class="num" style="font-size:.74rem;color:var(--muted)">£2,340 {s.goalSaved} {s.goalOf}</div>
+</div>
+<div class="scr-card row">
+  <span class="ic tint-ac"><Icon name="target" /></span>
+  <span class="nm"><b>{s.goalTitle}</b><span>{s.goalGo}</span></span>
+  <span class="amt" style="color:var(--ac-ink)">+£200</span>
+</div>
+<ScreenNav active="home" />

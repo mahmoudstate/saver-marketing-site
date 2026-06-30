@@ -3,6 +3,7 @@
 // (placeholders). See MARKETING_SITE_PLAN.md §8.
 import Base from "../../layouts/Base.astro";
 import { useTranslations, locales } from "../../i18n/utils";
+import { PRICE, TRIAL } from "../../i18n/landing";
 import type { Lang } from "../../i18n/ui";
 
 export function getStaticPaths() {
@@ -22,8 +23,11 @@ const ar = lang === "ar";
     </p>
 
     <div class="mx-auto mt-10 max-w-sm rounded-3xl border border-line bg-card p-8 shadow-soft">
-      <div class="text-5xl font-extrabold text-ac">[ —— ]</div>
-      <p class="mt-1 text-sm font-bold text-faint">{ar ? "السعر يُحدَّد قريبًا" : "Price — to be announced"}</p>
+      <div class="flex items-baseline justify-center gap-2">
+        <span class="text-5xl font-extrabold text-ac-ink">{PRICE}</span>
+        <span class="text-sm font-bold text-muted">{ar ? "دفعة واحدة" : "one time"}</span>
+      </div>
+      <p class="mt-2 text-sm font-bold text-faint">{ar ? `تجربة مجانية ${TRIAL} يومًا — بلا بطاقة` : `${TRIAL}-day free trial — no card needed`}</p>
       <ul class="mt-6 space-y-2 text-start text-sm font-semibold text-muted">
         <li>✓ {ar ? "مدى الحياة على حسابك" : "Lifetime access on your account"}</li>
         <li>✓ {ar ? "كل التحديثات مشمولة" : "All updates included"}</li>

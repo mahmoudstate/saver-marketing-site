@@ -1,27 +1,48 @@
 ---
-// Footer — links, language switch, credit line (dynamic year).
-import LangSwitch from "./LangSwitch.astro";
+// Footer — Calm Premium columns. Product / Company / Legal + credit line.
+import Icon from "./landing/Icon.astro";
 import { useTranslations } from "../i18n/utils";
 import type { Lang } from "../i18n/ui";
 const { lang } = Astro.props as { lang: Lang };
 const t = useTranslations(lang);
 const base = `/${lang}`;
 const year = new Date().getFullYear();
-const links = [
-  { href: `${base}/pricing`, label: t("nav.pricing") },
-  { href: `${base}/about`, label: t("nav.about") },
-  { href: `${base}/privacy-policy`, label: lang === "ar" ? "سياسة الخصوصية" : "Privacy Policy" },
-  { href: `${base}/download`, label: t("nav.download") },
+const ar = lang === "ar";
+const cols = [
+  { h: ar ? "المنتج" : "Product", links: [
+    { href: `${base}#features`, label: t("nav.features") },
+    { href: `${base}/pricing`, label: t("nav.pricing") },
+    { href: `${base}/download`, label: ar ? "التثبيت" : "Download" },
+  ] },
+  { h: ar ? "الشركة" : "Company", links: [
+    { href: `${base}/about`, label: t("nav.about") },
+    { href: "mailto:hello@savertrack.app", label: ar ? "تواصل" : "Contact" },
+  ] },
+  { h: ar ? "قانوني" : "Legal", links: [
+    { href: `${base}/privacy-policy`, label: ar ? "سياسة الخصوصية" : "Privacy Policy" },
+  ] },
 ];
+const tagline = ar
+  ? "ميزانية هادئة وخاصة تعمل بلا إنترنت. اعرف القابل للصرف — وادّخر بلا ضجيج."
+  : "Calm, private, offline budgeting. See what's safe to spend — and save without the noise.";
 ---
-<footer class="mt-24 border-t border-line/60">
-  <div class="mx-auto flex max-w-6xl flex-col items-center gap-5 px-5 py-12">
-    <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
-      {links.map((l) => (
-        <a href={l.href} class="text-sm font-bold text-muted transition-colors hover:text-text">{l.label}</a>
+<footer class="footer sec" style="padding-block:64px 40px">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href={base}><span class="logo" aria-hidden="true"><Icon name="logo" /></span>Saver</a>
+        <p>{tagline}</p>
+      </div>
+      {cols.map((col) => (
+        <div class="foot-col">
+          <h4>{col.h}</h4>
+          {col.links.map((l) => (<a href={l.href}>{l.label}</a>))}
+        </div>
       ))}
     </div>
-    <LangSwitch lang={lang} />
-    <p class="text-center text-xs font-bold text-faint">{t("footer.rights")} © {year}</p>
+    <div class="foot-bottom">
+      <span>© {year} Saver · savertrack.app</span>
+      <span class="sig">{ar ? "صُنع بعناية — محمود" : "Made with care by Mahmoud"}</span>
+    </div>
   </div>
 </footer>
