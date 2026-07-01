@@ -12,6 +12,8 @@ html {
   color: var(--text);
   font-family: "Inter", "Cairo", system-ui, sans-serif;
 }
+/* Never allow horizontal scroll on the marketing page (mobile-first safety net). */
+html, body { overflow-x: hidden; max-width: 100%; }
 
 /* Arabic / RTL — Cairo for Arabic, wider line-height, no letter-spacing.
    Numbers stay Inter (Latin) even in Arabic. */

@@ -7,21 +7,24 @@ const root = document.documentElement;
 root.classList.remove("no-js");
 
 const sun =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M5 5l1.5 1.5M17.5 17.5L19 19M2 12h2M20 12h2M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>';
+  '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M5 5l1.5 1.5M17.5 17.5L19 19M2 12h2M20 12h2M5 19l1.5-1.5M17.5 6.5L19 5"/></svg>';
 const moon =
-  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
 
 function applyTheme(t: string) {
   root.setAttribute("data-theme", t);
-  const icon = document.getElementById("themeIcon");
-  if (icon) icon.innerHTML = t === "dark" ? sun : moon;
+  document.querySelectorAll(".js-theme-icon").forEach((icon) => {
+    icon.innerHTML = t === "dark" ? sun : moon;
+  });
 }
 let theme = localStorage.getItem("saver-theme") || "dark";
 applyTheme(theme);
-document.getElementById("themeToggle")?.addEventListener("click", () => {
-  theme = theme === "dark" ? "light" : "dark";
-  localStorage.setItem("saver-theme", theme);
-  applyTheme(theme);
+document.querySelectorAll(".js-theme").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    theme = theme === "dark" ? "light" : "dark";
+    localStorage.setItem("saver-theme", theme);
+    applyTheme(theme);
+  });
 });
 
 // Mobile menu

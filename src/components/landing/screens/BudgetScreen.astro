@@ -4,22 +4,19 @@
 import Icon from "../Icon.astro";
 import ScreenNav from "./ScreenNav.astro";
 const { s } = Astro.props as { s: Record<string, string> };
-// donut geometry (matches BudgetRing.jsx): r = size/2 - stroke/2
-const size = 132, stroke = 14, r = size / 2 - stroke / 2;
-const C = 2 * Math.PI * r;
 const pct = 52;
-const off = C * (1 - pct / 100);
+// Ring geometry — drawn entirely in SVG (arc + label) so nothing can reflow.
+const R = 52, C = 2 * Math.PI * R, off = C * (1 - pct / 100);
 ---
 <div class="content padnav">
   <div class="scrhd"><div class="h">{s.budgetsTitle}</div></div>
   <div class="bcard" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 16px">
-    <div class="ring" style={`width:${size}px;height:${size}px`}>
-      <svg width={size} height={size} style="transform:rotate(-90deg)">
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--track)" stroke-width={stroke}></circle>
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--ac)" stroke-width={stroke} stroke-linecap="round" stroke-dasharray={C.toFixed(1)} stroke-dashoffset={off.toFixed(1)}></circle>
-      </svg>
-      <div class="v"><b class="tnum" style="color:var(--ac)">{pct}%</b><small>{s.used}</small></div>
-    </div>
+    <svg width="132" height="132" viewBox="0 0 132 132" style="flex:none">
+      <circle cx="66" cy="66" r={R} fill="none" stroke="var(--track)" stroke-width="14"></circle>
+      <circle cx="66" cy="66" r={R} fill="none" stroke="var(--ac)" stroke-width="14" stroke-linecap="round" stroke-dasharray={C.toFixed(1)} stroke-dashoffset={off.toFixed(1)} transform="rotate(-90 66 66)"></circle>
+      <text x="66" y="63" text-anchor="middle" dominant-baseline="middle" fill="var(--ac)" style="font:800 27px Inter,sans-serif;letter-spacing:-1px">{pct}%</text>
+      <text x="66" y="83" text-anchor="middle" fill="var(--muted)" style="font:700 9px Inter,sans-serif;letter-spacing:1px">{s.used.toUpperCase()}</text>
+    </svg>
     <div class="tnum" style="font-size:12.5px;color:var(--muted);font-weight:600">£260 {s.spentOf} £500</div>
   </div>
   <div class="bcard">

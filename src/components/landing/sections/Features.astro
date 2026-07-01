@@ -1,8 +1,7 @@
 ---
 import Icon from "../Icon.astro";
-const { c, lang } = Astro.props as { c: any; lang: string };
+const { c } = Astro.props as { c: any };
 const f = c.features;
-const base = `/${lang}`;
 const iconMap: Record<string, string> = { check: "check", bill: "bill", goal: "ring", budget: "budget", grid: "grid", chart: "chart" };
 ---
 <section class="sec wrap" id="features">
@@ -17,7 +16,6 @@ const iconMap: Record<string, string> = { check: "check", bill: "bill", goal: "r
         <span class={`fic ${it.tint}`}><Icon name={iconMap[it.icon]} /></span>
         <h3 class="l-h3">{it.t}</h3>
         <p>{it.d}</p>
-        <a class="flink" href={`${base}/download`}><span>{f.link}</span><Icon name="arrow" class="dir" /></a>
       </article>
     ))}
   </div>

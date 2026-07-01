@@ -26,13 +26,20 @@ const links = [
     </a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       {links.map((l) => (<a href={l.href}>{l.label}</a>))}
+      <div class="nav-menu-extra">
+        <button class="toggle js-theme" type="button" aria-label="Toggle theme">
+          <span class="js-theme-icon"><Icon name="moon" /></span>
+          <span>{lang === "ar" ? "المظهر" : "Theme"}</span>
+        </button>
+        <a class="toggle lang-t" href={langHref} hreflang={to}>{to === "ar" ? "العربية" : "English"}</a>
+      </div>
     </nav>
     <div class="nav-actions">
-      <button class="toggle" id="themeToggle" type="button" aria-label="Toggle theme">
-        <span id="themeIcon"><Icon name="moon" /></span>
+      <button class="toggle bar-only js-theme" type="button" aria-label="Toggle theme">
+        <span class="js-theme-icon"><Icon name="moon" /></span>
       </button>
-      <a class="toggle lang-t" href={langHref} hreflang={to} aria-label={`Switch language to ${to === "ar" ? "العربية" : "English"}`}>
-        <Icon name="globe" /><span>{langLabel}</span>
+      <a class="toggle lang-t bar-only" href={langHref} hreflang={to} aria-label={`Switch language to ${to === "ar" ? "العربية" : "English"}`}>
+        <span>{langLabel}</span>
       </a>
       <a class="btn btn-primary btn-sm" href={`${base}/download`}>{t("cta.try")}</a>
       <button class="toggle nav-burger" id="burger" type="button" aria-label="Menu"><Icon name="burger" /></button>

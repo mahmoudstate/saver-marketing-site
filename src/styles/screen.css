@@ -12,7 +12,10 @@
   --heroGrad: linear-gradient(155deg, color-mix(in srgb, var(--ac) 40%, #fff) 0%, color-mix(in srgb, var(--ac) 66%, #fff) 100%);
   --heroText: #1b332c; --heroSub: rgba(27, 51, 44, .80); --heroChip: rgba(255, 255, 255, .22);
   --r-sm: 12px; --r-md: 16px; --r-lg: 18px; --r-xl: 22px; --r-pill: 999px;
-  position: absolute; inset: 0; overflow: hidden;
+  /* Rendered at the app's native screen size, then scaled to fit the mockup
+     (--sc comes from .phone) so every proportion matches the real app. */
+  position: absolute; top: 0; left: 0; width: 366px; height: 820px; overflow: hidden;
+  transform-origin: top left; transform: scale(var(--sc, 1));
   font-family: "Inter", "Cairo", system-ui, sans-serif;
   font-feature-settings: "tnum" 1, "zero" 1;
   background: var(--bg); color: var(--text);
@@ -90,9 +93,11 @@
 .appscr .bcard .nums .a { font-size: 18px; font-weight: 800; letter-spacing: -.4px; }
 .appscr .bcard .nums .b { font-size: 12.5px; color: var(--muted); font-weight: 600; }
 .appscr .ring { position: relative; flex-shrink: 0; }
-.appscr .ring .v { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.appscr .ring .v b { font-size: 26px; font-weight: 800; letter-spacing: -1px; }
-.appscr .ring .v small { font-size: 9.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+.appscr .ring.donut { width: 132px; height: 132px; }
+.appscr .ring.donut .donut-arc { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(var(--ac) 0 var(--p, 0%), var(--track) 0); -webkit-mask: radial-gradient(closest-side, transparent 76%, #000 77%); mask: radial-gradient(closest-side, transparent 76%, #000 77%); }
+.appscr .ring .v { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; line-height: 1; }
+.appscr .ring .v b { display: block; font-size: 26px; font-weight: 800; letter-spacing: -1px; line-height: 1; white-space: nowrap; }
+.appscr .ring .v small { display: block; font-size: 9.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-top: 3px; white-space: nowrap; }
 
 /* list row */
 .appscr .icard { display: flex; align-items: center; gap: 13px; background: var(--surface); border: var(--cardBorder); box-shadow: var(--cardShadow); border-radius: var(--r-lg); padding: 13px 15px; margin-bottom: 11px; }

@@ -2,9 +2,11 @@
 // Phone frame (device shell + dynamic island). The inner screen is the REAL
 // app design, scoped under `.appscr` (see styles/screen.css). `ptheme` forces
 // the screen's light/dark independently of the page.
-interface Props { pw?: string; ptheme?: "dark" | "light"; dir?: "ltr" | "rtl"; }
+interface Props { pw?: string | number; ptheme?: "dark" | "light"; dir?: "ltr" | "rtl"; }
 const { pw, ptheme = "dark", dir } = Astro.props;
-const style = pw ? `--pw:${pw}` : undefined;
+// pw is the device width in px (number or "264px"); drive the unitless --pwn.
+const pwn = pw != null ? String(pw).replace(/px$/, "") : null;
+const style = pwn ? `--pwn:${pwn}` : undefined;
 ---
 <div class="phone" style={style} dir={dir}>
   <div class="phone-screen">
