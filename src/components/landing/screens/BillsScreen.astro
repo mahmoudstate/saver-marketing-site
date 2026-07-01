@@ -1,17 +1,26 @@
 ---
+// Bills — ported from the app (src/screens/Bills.jsx): monthly bills list with
+// brand-coloured monograms, frequency + due day, amount, paid/due status.
 import Icon from "../Icon.astro";
 import ScreenNav from "./ScreenNav.astro";
 const { s } = Astro.props as { s: Record<string, string> };
 const bills = [
-  { ic: "tint-rose", name: s.bill1, due: s.bill1c, amt: "£10.99" },
-  { ic: "tint-blue", name: s.bill2, due: s.bill2c, amt: "£24.00" },
-  { ic: "tint-orange", name: s.bill3, due: s.bill3c, amt: "£310" },
+  { c: "#E50914", i: "N", name: "Netflix", sub: `${s.monthly} · ${s.day} 5`, amt: "£10", paid: true },
+  { c: "#E60000", i: "V", name: "Vodafone", sub: `${s.monthly} · ${s.day} 16`, amt: "£12", paid: false },
+  { c: "#1DB954", i: "S", name: "Spotify", sub: `${s.monthly} · ${s.day} 9`, amt: "£6", paid: true },
 ];
 ---
-<div class="scr-top"><div class="scr-sec-t">{s.billsTitle}</div><div class="scr-eye"><Icon name="bill" /></div></div>
-<div class="scr-list grow" style="display:flex;flex-direction:column;justify-content:center;gap:2px">
+<div class="content padnav">
+  <div class="scrhd"><div class="h">{s.billsTitle}</div><span class="pill">£28 {s.due}</span></div>
   {bills.map((b) => (
-    <div class="txn"><span class={`ti ${b.ic}`}><Icon name="bill" /></span><span class="tn"><span class="tt">{b.name}</span><span class="td">{b.due}</span></span><span class="ta neg num">{b.amt}</span></div>
+    <div class="icard">
+      <span class="circ" style={`width:44px;height:44px;border-radius:13px;color:#fff;font-weight:800;font-size:16px;background:${b.c}`}>{b.i}</span>
+      <div style="min-width:0"><div class="nm">{b.name}</div><div class="mt">{b.sub}</div></div>
+      <div style="text-align:end;margin-inline-start:auto">
+        <div class="tnum" style="font-size:15px;font-weight:800">{b.amt}</div>
+        <div style={`font-size:11px;font-weight:700;margin-top:2px;color:${b.paid ? "var(--success)" : "var(--yellow)"}`}>{b.paid ? s.paid : s.dueWord}</div>
+      </div>
+    </div>
   ))}
 </div>
-<ScreenNav active="bars" />
+<ScreenNav active="bills" />

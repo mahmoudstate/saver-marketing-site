@@ -1,22 +1,30 @@
 ---
+// Goals — ported from the app (src/screens/Goals.jsx): mint hero with total
+// saved, per-goal cards (progress), and the "frozen & safe" banner.
 import Icon from "../Icon.astro";
 import ScreenNav from "./ScreenNav.astro";
 const { s } = Astro.props as { s: Record<string, string> };
+const goals = [
+  { name: s.goalLaptop, saved: "600", of: "1,800", pct: 33 },
+  { name: s.goalHoliday, saved: "280", of: "900", pct: 31 },
+];
 ---
-<div class="scr-top"><div class="scr-sec-t">{s.goalTitle}</div><div class="scr-eye"><Icon name="target" /></div></div>
-<div class="scr-card" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px 14px">
-  <div class="ring-c">
-    <svg class="ring" viewBox="0 0 120 120">
-      <circle class="trk" cx="60" cy="60" r="50"></circle>
-      <circle class="val" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="69"></circle>
-    </svg>
-    <div class="lbl"><b>£2,340</b><span>{s.goalGo}</span></div>
+<div class="content padnav">
+  <div class="hero" style="min-height:auto">
+    <div class="toprow"><div class="hib"><Icon name="back" /></div><div style="font-size:17px;font-weight:800">{s.goalsTitle}</div><div class="grow"></div><div class="hib"><Icon name="plus" /></div></div>
+    <div class="lbl">{s.savedToward}</div>
+    <div class="big tnum"><span class="cur">£</span>880</div>
+    <div class="sub">{s.twoActive} &nbsp;·&nbsp; {s.frozenSafe}</div>
   </div>
-  <div class="num" style="font-size:.74rem;color:var(--muted)">£2,340 {s.goalSaved} {s.goalOf}</div>
-</div>
-<div class="scr-card row">
-  <span class="ic tint-ac"><Icon name="target" /></span>
-  <span class="nm"><b>{s.goalTitle}</b><span>{s.goalGo}</span></span>
-  <span class="amt" style="color:var(--ac-ink)">+£200</span>
+  {goals.map((g) => (
+    <div class="bcard">
+      <div class="top"><span class="circ" style="width:42px;height:42px;border-radius:13px;background:var(--acDim);color:var(--acText)"><Icon name="target" /></span><div class="nm">{g.name}</div><div class="pct">{g.pct}%</div></div>
+      <div class="nums"><div class="a tnum">£{g.saved}</div><div class="b tnum">{s.of} £{g.of}</div></div>
+      <div class="pbar"><i style={`width:${g.pct}%;background:linear-gradient(90deg,var(--ac),var(--ac2))`}></i></div>
+    </div>
+  ))}
+  <div style="display:flex;align-items:center;gap:10px;background:var(--acDim);color:var(--acText);border-radius:14px;padding:12px 14px;margin-top:4px">
+    <Icon name="lock" /><span style="font-weight:700;font-size:13px">{s.frozenAndSafe}</span><b class="tnum" style="margin-inline-start:auto;font-size:14px">£880</b>
+  </div>
 </div>
 <ScreenNav active="home" />

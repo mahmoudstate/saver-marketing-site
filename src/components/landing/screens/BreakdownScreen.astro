@@ -1,20 +1,34 @@
 ---
+// Breakdown — ported from the app (src/screens/Breakdown.jsx): mint hero with
+// total spent + category bars.
 import Icon from "../Icon.astro";
 import ScreenNav from "./ScreenNav.astro";
 const { s } = Astro.props as { s: Record<string, string> };
-const rows = [
-  { name: s.bd1, amt: "£1,180", pct: "46%", fill: "fill-purple" },
-  { name: s.bd2, amt: "£640", pct: "25%", fill: "fill-orange" },
-  { name: s.bd3, amt: "£420", pct: "16%", fill: "fill-blue" },
-  { name: s.bd4, amt: "£330", pct: "13%", fill: "fill-rose" },
+const cats = [
+  { name: s.bdFood, glyph: "utensils", col: "#fb923c", amt: "160", pct: 38 },
+  { name: s.bdShopping, glyph: "bag", col: "#f472b6", amt: "120", pct: 29 },
+  { name: s.bdTransport, glyph: "card", col: "#60a5fa", amt: "80", pct: 19 },
+  { name: s.bdFun, glyph: "sparkles", col: "#a78bfa", amt: "60", pct: 14 },
 ];
 ---
-<div class="scr-top"><div class="scr-sec-t">{s.bdTitle}</div><div class="scr-eye"><Icon name="chart" /></div></div>
-<div class="scr-list grow" style="display:flex;flex-direction:column;justify-content:center">
-  <div class="bd-list">
-    {rows.map((r) => (
-      <div class="bd-row"><div class="bd-top"><span>{r.name}</span><span class="num">{r.amt}</span></div><div class="bar"><i class={r.fill} style={`width:${r.pct}`}></i></div></div>
+<div class="content padnav">
+  <div class="hero" style="min-height:auto">
+    <div class="toprow"><div class="hib"><Icon name="back" /></div><div style="font-size:17px;font-weight:800">{s.bdTitle}</div><div class="grow"></div><span class="hib" style="width:auto;padding:0 12px;gap:6px;font-size:12.5px;font-weight:700;border-radius:999px">Jul</span></div>
+    <div class="lbl">{s.totalSpent}</div>
+    <div class="big tnum"><span class="cur">£</span>420</div>
+    <div class="sub">{s.across4}</div>
+  </div>
+  <div class="over" style="margin:2px 2px 11px">{s.topCategories}</div>
+  <div class="tile">
+    {cats.map((c, i) => (
+      <div style={`display:flex;align-items:center;gap:11px;margin-bottom:${i === cats.length - 1 ? 0 : 13}px`}>
+        <span class="circ" style={`width:34px;height:34px;border-radius:11px;color:#fff;background:${c.col}`}><Icon name={c.glyph} class="" /></span>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:5px"><span>{c.name}</span><span class="tnum">£{c.amt} · {c.pct}%</span></div>
+          <div class="pbar"><i style={`width:${c.pct}%;background:${c.col}`}></i></div>
+        </div>
+      </div>
     ))}
   </div>
 </div>
-<ScreenNav active="bars" />
+<ScreenNav active="activity" />

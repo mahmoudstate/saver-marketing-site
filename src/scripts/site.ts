@@ -82,7 +82,7 @@ function clearReveals() {
     el.style.transform = "none";
   });
   const amt = document.getElementById("stsAmt");
-  if (amt) amt.textContent = (2480).toLocaleString("en-US");
+  if (amt) amt.textContent = (1446).toLocaleString("en-US");
 }
 
 if (reduce) {
@@ -117,8 +117,5 @@ if (reduce) {
   });
 
   const amt = document.getElementById("stsAmt");
-  if (amt) ScrollTrigger.create({ trigger: amt, start: "top 90%", once: true, onEnter: () => countUp(amt, 2480, 1400) });
-
-  const bar = document.querySelector<HTMLElement>("#heroPhone .sts-bar i");
-  if (bar) gsap.fromTo(bar, { width: "0%" }, { width: "62%", duration: 1.2, ease: "power3.out", delay: 0.6 });
+  if (amt) ScrollTrigger.create({ trigger: amt, start: "top 90%", once: true, onEnter: () => countUp(amt, 1446, 1400) });
 }

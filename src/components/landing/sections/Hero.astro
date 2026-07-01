@@ -25,14 +25,6 @@ const base = `/${lang}`;
 
     <div class="hero-stage">
       <div class="hero-glow" aria-hidden="true"></div>
-      <div class="float-card float-a" aria-hidden="true">
-        <span class="fc-ic tint-rose"><Icon name="clock" /></span>
-        <span><span class="fc-t">{c.features.items[1].t}</span><span class="fc-v num">{lang === "ar" ? "فاتورتان قريبًا" : "2 due soon"}</span></span>
-      </div>
-      <div class="float-card float-b" aria-hidden="true">
-        <span class="fc-ic tint-ac"><Icon name="target" /></span>
-        <span><span class="fc-t">{c.features.items[2].t}</span><span class="fc-v num">{c.screen.goalGo}</span></span>
-      </div>
       <div id="heroPhone">
         <Phone ptheme="dark"><HomeScreen s={c.screen} live={true} /></Phone>
       </div>

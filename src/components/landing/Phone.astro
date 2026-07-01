@@ -1,17 +1,14 @@
 ---
-// Phone frame (dynamic island + screen). Inner screen passed via slot.
-// `pw` sets the device width; `ptheme` forces dark/light independent of page.
-interface Props { pw?: string; ptheme?: "dark" | "light"; dir?: "ltr" | "rtl"; statusDark?: boolean; }
-const { pw, ptheme = "dark", dir, statusDark } = Astro.props;
+// Phone frame (device shell + dynamic island). The inner screen is the REAL
+// app design, scoped under `.appscr` (see styles/screen.css). `ptheme` forces
+// the screen's light/dark independently of the page.
+interface Props { pw?: string; ptheme?: "dark" | "light"; dir?: "ltr" | "rtl"; }
+const { pw, ptheme = "dark", dir } = Astro.props;
 const style = pw ? `--pw:${pw}` : undefined;
-const statusColor = (ptheme === "light" || statusDark) ? "color:#2B2E35" : undefined;
 ---
 <div class="phone" style={style} dir={dir}>
-  <div class="phone-screen" data-ptheme={ptheme}>
-    <div class="scr-status" style={statusColor}>
-      <span class="num">9:41</span><span class="dots"><i></i><i></i><i></i></span>
-    </div>
-    <div class="scr">
+  <div class="phone-screen">
+    <div class="appscr" data-ptheme={ptheme}>
       <slot />
     </div>
   </div>

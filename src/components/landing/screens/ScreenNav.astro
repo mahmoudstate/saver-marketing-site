@@ -1,13 +1,13 @@
 ---
-// Bottom tab bar shared by every mock screen. `active` picks the lit tab.
+// Real app bottom nav: Home · Bills · [+] · Activity · Profile (see BottomNav.jsx).
 import Icon from "../Icon.astro";
 const { active = "home" } = Astro.props as { active?: string };
-const tabs = ["home", "bars"];
+const on = (t: string) => (active === t ? "it on" : "it");
 ---
-<div class="scr-nav">
-  <span class={`ni ${active === "home" ? "on" : ""}`}><Icon name="home" /></span>
-  <span class={`ni ${active === "bars" ? "on" : ""}`}><Icon name="bars" /></span>
-  <span class="nfab"><Icon name="plus" /></span>
-  <span class={`ni ${active === "cog" ? "on" : ""}`}><Icon name="cog" /></span>
-  <span class={`ni ${active === "user" ? "on" : ""}`}><Icon name="user" /></span>
+<div class="appnav">
+  <div class={on("home")}><Icon name="home" /></div>
+  <div class={on("bills")}><Icon name="bills" /></div>
+  <div class="fab"><Icon name="plus" stroke-width="2.4" /></div>
+  <div class={on("activity")}><Icon name="activity" /></div>
+  <div class={on("profile")}><Icon name="you" /></div>
 </div>

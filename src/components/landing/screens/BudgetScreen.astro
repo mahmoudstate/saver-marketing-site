@@ -1,23 +1,31 @@
 ---
+// Budgets — ported from the app (src/screens/Budgets.jsx + BudgetRing): monthly
+// spend donut + per-budget cards with progress.
 import Icon from "../Icon.astro";
 import ScreenNav from "./ScreenNav.astro";
 const { s } = Astro.props as { s: Record<string, string> };
+// donut geometry (matches BudgetRing.jsx): r = size/2 - stroke/2
+const size = 132, stroke = 14, r = size / 2 - stroke / 2;
+const C = 2 * Math.PI * r;
+const pct = 52;
+const off = C * (1 - pct / 100);
 ---
-<div class="scr-top"><div class="scr-sec-t">{s.budgetTitle}</div><div class="scr-eye"><Icon name="budget" /></div></div>
-<div class="scr-card" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 14px">
-  <div class="ring-c">
-    <svg class="ring" viewBox="0 0 120 120">
-      <circle class="trk" cx="60" cy="60" r="50"></circle>
-      <circle class="val" cx="60" cy="60" r="50" stroke-dasharray="314" stroke-dashoffset="110" style="stroke:var(--purple)"></circle>
-    </svg>
-    <div class="lbl"><b>£720</b><span>{s.budgetLeft}</span></div>
+<div class="content padnav">
+  <div class="scrhd"><div class="h">{s.budgetsTitle}</div></div>
+  <div class="bcard" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 16px">
+    <div class="ring" style={`width:${size}px;height:${size}px`}>
+      <svg width={size} height={size} style="transform:rotate(-90deg)">
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--track)" stroke-width={stroke}></circle>
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--ac)" stroke-width={stroke} stroke-linecap="round" stroke-dasharray={C.toFixed(1)} stroke-dashoffset={off.toFixed(1)}></circle>
+      </svg>
+      <div class="v"><b class="tnum" style="color:var(--ac)">{pct}%</b><small>{s.used}</small></div>
+    </div>
+    <div class="tnum" style="font-size:12.5px;color:var(--muted);font-weight:600">£260 {s.spentOf} £500</div>
   </div>
-  <div class="num" style="font-size:.72rem;color:var(--muted)">£1,280 {s.budgetSpent}</div>
+  <div class="bcard">
+    <div class="top"><span class="circ" style="width:42px;height:42px;border-radius:13px;background:var(--purpleDim);color:var(--purple)"><Icon name="layers" /></span><div class="nm">{s.budgetStandard}</div><div class="pct" style="color:var(--purple);background:var(--purpleDim)">52%</div></div>
+    <div class="nums"><div class="a tnum">£260</div><div class="b tnum">£240 {s.leftOf} £500</div></div>
+    <div class="pbar"><i style="width:52%;background:var(--purple)"></i></div>
+  </div>
 </div>
-<div class="scr-card">
-  <div class="bd-row"><div class="bd-top"><span>{s.bd2}</span><span class="num">£420</span></div><div class="bar"><i class="fill-orange" style="width:64%"></i></div></div>
-</div>
-<div class="scr-card">
-  <div class="bd-row"><div class="bd-top"><span>{s.bd3}</span><span class="num">£180</span></div><div class="bar"><i class="fill-blue" style="width:38%"></i></div></div>
-</div>
-<ScreenNav active="bars" />
+<ScreenNav active="bills" />

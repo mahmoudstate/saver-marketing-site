@@ -1,0 +1,117 @@
+/* ============================================================
+   Phone-mockup screens — the REAL Saver app design.
+   Component rules + tokens copied from the app's design system
+   (src/saver-ui.css) and scoped under `.appscr` so they render
+   1:1 with the product without colliding with the marketing page.
+   ============================================================ */
+
+.appscr {
+  /* accent + scale (global in the app) */
+  --ac: #5fe3c0; --ac2: #8af0d6; --onacc: #06251f;
+  --acDim: color-mix(in srgb, var(--ac) 14%, transparent);
+  --heroGrad: linear-gradient(155deg, color-mix(in srgb, var(--ac) 40%, #fff) 0%, color-mix(in srgb, var(--ac) 66%, #fff) 100%);
+  --heroText: #1b332c; --heroSub: rgba(27, 51, 44, .80); --heroChip: rgba(255, 255, 255, .22);
+  --r-sm: 12px; --r-md: 16px; --r-lg: 18px; --r-xl: 22px; --r-pill: 999px;
+  position: absolute; inset: 0; overflow: hidden;
+  font-family: "Inter", "Cairo", system-ui, sans-serif;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  background: var(--bg); color: var(--text);
+  display: flex; flex-direction: column;
+}
+.appscr[data-ptheme="light"] {
+  --bg: #f4f4f8; --surface: #fff; --card: #fff; --surface2: #f1f2f6;
+  --border: #e6e7ee; --line: #e6e7ee; --track: #ebecf1;
+  --text: #2b2e35; --muted: #646773; --faint: #6b6f7b;
+  --red: #e5544e; --redDim: #fce9e8; --blue: #2563eb; --blueDim: #dce7fe;
+  --yellow: #d97706; --yellowDim: #fcefd6; --purple: #7c3aed; --purpleDim: #ece5fe;
+  --orange: #ea580c; --orangeDim: #fce6d8; --success: #0e9f6e;
+  --acText: color-mix(in srgb, var(--ac) 48%, #000);
+  --cardShadow: 0 1px 2px rgba(20, 22, 40, .04), 0 6px 18px rgba(20, 22, 40, .05);
+  --cardBorder: 1px solid var(--border);
+  --navShadow: 0 12px 34px rgba(20, 22, 40, .13);
+}
+.appscr[data-ptheme="dark"] {
+  --bg: color-mix(in srgb, var(--ac) 8%, #0c0d11); --surface: #15161d; --card: #1e1e28; --surface2: #1e1e28;
+  --border: #26262f; --line: #26262f; --track: #24242e;
+  --text: #e9e9f1; --muted: #8a8aa4; --faint: #8587a0;
+  --red: #f2766e; --redDim: #36201e; --blue: #60a5fa; --blueDim: #16243a;
+  --yellow: #fbbf24; --yellowDim: #3a2c0c; --purple: #a78bfa; --purpleDim: #241a3a;
+  --orange: #fb923c; --orangeDim: #3a2410; --success: #34d399;
+  --acText: var(--ac);
+  --cardShadow: none; --cardBorder: 1px solid var(--border);
+  --navShadow: 0 16px 40px rgba(0, 0, 0, .55);
+}
+
+.appscr .tnum { font-variant-numeric: tabular-nums; }
+[dir="rtl"] .appscr .tnum { direction: ltr; unicode-bidi: isolate; }
+.appscr .content { flex: 1; overflow: hidden; padding: 0 20px; }
+.appscr .content.padnav { padding-bottom: 30px; }
+
+/* hero (mint cover) */
+.appscr .hero { margin: 0 -20px 16px; padding: 30px 22px 24px; background: var(--heroGrad); color: var(--heroText); border-radius: 0 0 28px 28px; position: relative; overflow: hidden; min-height: 200px; }
+.appscr .hero::after { content: ""; position: absolute; right: -40px; top: -50px; width: 170px; height: 170px; border-radius: 50%; background: rgba(255, 255, 255, .14); }
+.appscr .hero .toprow { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; position: relative; z-index: 1; }
+.appscr .hero .grow { flex: 1; }
+.appscr .hib { width: 40px; height: 40px; border-radius: 50%; background: var(--heroChip); color: var(--heroText); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; }
+.appscr .hib svg { width: 20px; height: 20px; }
+.appscr .hero .lbl { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--heroSub); position: relative; z-index: 1; }
+[dir="rtl"] .appscr .hero .lbl { letter-spacing: 0; }
+.appscr .hero .big { font-size: 36px; font-weight: 800; letter-spacing: -1.2px; line-height: 1.04; margin-top: 8px; position: relative; z-index: 1; }
+.appscr .hero .sub { font-size: 13px; font-weight: 600; color: var(--heroSub); margin-top: 12px; position: relative; z-index: 1; }
+.appscr .cur { font-size: .55em; font-weight: 700; opacity: .8; margin-inline-end: 1px; }
+.appscr .notifDot { position: absolute; top: 6px; right: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--red); border: 2px solid var(--heroChip); }
+
+/* tile / section title */
+.appscr .tile { background: var(--surface); border: var(--cardBorder); box-shadow: var(--cardShadow); border-radius: var(--r-lg); padding: 16px; margin-bottom: 13px; }
+.appscr .sectit { display: flex; align-items: center; justify-content: space-between; margin: 2px 2px 13px; }
+.appscr .sectit .t { font-size: 14px; font-weight: 800; letter-spacing: -.2px; }
+.appscr .over { font-size: 10.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+[dir="rtl"] .appscr .over { letter-spacing: 0; }
+.appscr .circ { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* bank card */
+.appscr .bankcard { position: relative; overflow: hidden; border-radius: 22px; padding: 16px 17px; color: #fff; display: flex; flex-direction: column; justify-content: space-between; min-width: 208px; height: 150px; box-shadow: 0 12px 24px -10px rgba(0, 0, 0, .45); }
+.appscr .bankcard .bc-orb { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, .16); }
+.appscr .bankcard .btop { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; }
+.appscr .bankcard .bname { font-weight: 800; font-size: 14.5px; }
+.appscr .bankcard .bavl { font-size: 10px; opacity: .85; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; }
+.appscr .bankcard .bbig { font-size: 27px; font-weight: 800; letter-spacing: -.6px; line-height: 1.08; }
+.appscr .bankcard .brow { display: flex; align-items: center; gap: 5px; margin-top: 6px; font-size: 11.5px; font-weight: 700; }
+.appscr .bankcard .brow svg { width: 12px; height: 12px; }
+
+/* progress bars, bcard (budgets/goals), ring */
+.appscr .pbar { height: 6px; border-radius: var(--r-pill); background: var(--surface2); overflow: hidden; }
+.appscr .pbar > i { display: block; height: 100%; border-radius: var(--r-pill); }
+.appscr .bcard { background: var(--surface); border: var(--cardBorder); box-shadow: var(--cardShadow); border-radius: var(--r-lg); padding: 15px 16px; margin-bottom: 12px; }
+.appscr .bcard .top { display: flex; align-items: center; gap: 12px; }
+.appscr .bcard .nm { font-size: 14.5px; font-weight: 700; }
+.appscr .bcard .pct { margin-inline-start: auto; font-size: 12.5px; font-weight: 700; color: var(--acText); background: var(--acDim); padding: 4px 11px; border-radius: var(--r-pill); }
+.appscr .bcard .nums { display: flex; justify-content: space-between; align-items: baseline; margin: 14px 0 11px; }
+.appscr .bcard .nums .a { font-size: 18px; font-weight: 800; letter-spacing: -.4px; }
+.appscr .bcard .nums .b { font-size: 12.5px; color: var(--muted); font-weight: 600; }
+.appscr .ring { position: relative; flex-shrink: 0; }
+.appscr .ring .v { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.appscr .ring .v b { font-size: 26px; font-weight: 800; letter-spacing: -1px; }
+.appscr .ring .v small { font-size: 9.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+
+/* list row */
+.appscr .icard { display: flex; align-items: center; gap: 13px; background: var(--surface); border: var(--cardBorder); box-shadow: var(--cardShadow); border-radius: var(--r-lg); padding: 13px 15px; margin-bottom: 11px; }
+.appscr .icard .nm { font-size: 14.5px; font-weight: 700; }
+.appscr .icard .mt { font-size: 12px; color: var(--muted); font-weight: 500; margin-top: 1px; }
+.appscr .amt { margin-inline-start: auto; font-size: 16px; font-weight: 800; letter-spacing: -.3px; text-align: end; }
+.appscr .pill { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 12.5px; padding: 5px 11px; border-radius: var(--r-pill); background: var(--acDim); color: var(--acText); }
+.appscr .pill-green { background: color-mix(in srgb, var(--success) 13%, transparent); color: var(--success); }
+.appscr .pill-red { background: var(--redDim); color: var(--red); }
+.appscr .pill-yellow { background: var(--yellowDim); color: var(--yellow); }
+
+/* bottom nav + fab (class `appnav` avoids collision with the marketing navbar `.nav`) */
+.appscr .appnav { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; background: var(--surface); box-shadow: var(--navShadow); border: var(--cardBorder); border-radius: var(--r-pill); padding: 9px 12px; z-index: 8; }
+.appscr .appnav .it { width: 44px; height: 40px; display: flex; align-items: center; justify-content: center; color: var(--faint); border-radius: 13px; }
+.appscr .appnav .it svg { width: 22px; height: 22px; }
+.appscr .appnav .it.on { color: var(--acText); background: var(--acDim); }
+.appscr .fab { width: 54px; height: 54px; border-radius: 18px; background: var(--ac); color: var(--onacc); display: flex; align-items: center; justify-content: center; margin: 0 6px; transform: translateY(-6px); box-shadow: 0 8px 18px -6px rgba(0, 0, 0, .34), inset 0 1px 0 rgba(255, 255, 255, .22); }
+.appscr .fab svg { width: 24px; height: 24px; }
+
+/* screen title (list screens) */
+.appscr .scrhd { display: flex; align-items: center; justify-content: space-between; padding: 8px 2px 14px; }
+.appscr .scrhd .h { font-size: 21px; font-weight: 800; letter-spacing: -.6px; }

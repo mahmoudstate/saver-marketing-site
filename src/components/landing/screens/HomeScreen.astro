@@ -1,27 +1,65 @@
 ---
-// Home — the "safe to spend" hero screen. `live` adds the count-up hook id.
+// Home — ported 1:1 from the app (src/screens/Home.jsx): mint hero with
+// safe-to-spend, account cards, this-month tile, bills tile, real bottom nav.
 import Icon from "../Icon.astro";
 import ScreenNav from "./ScreenNav.astro";
 const { s, live = false } = Astro.props as { s: Record<string, string>; live?: boolean };
 ---
-<div class="scr-top">
-  <div><div class="scr-hi">{s.hi}</div><div class="scr-name">{s.name}</div></div>
-  <div class="scr-eye"><Icon name="eye" /></div>
-</div>
-<div class="sts">
-  <div class="sts-label"><Icon name="check" /><span>{s.sts}</span></div>
-  <div class="sts-amt"><span class="cur">£</span><span class="num" id={live ? "stsAmt" : undefined}>2,480</span></div>
-  <div class="sts-bar"><i style="width:62%"></i></div>
-  <div class="sts-sub"><span>{s.left}</span><span class="num">£1,520 {s.spent}</span></div>
-</div>
-<div class="scr-row2">
-  <div class="mini"><div class="mt"><Icon name="card" /><span>{s.balance}</span></div><div class="mv num">£8,240</div></div>
-  <div class="mini"><div class="mt"><Icon name="trend" /><span>{s.month}</span></div><div class="mv num" style="color:var(--success)">+£1,150</div></div>
-</div>
-<div class="scr-list">
-  <div class="recent">{s.recent}</div>
-  <div class="txn"><span class="ti tint-orange"><Icon name="bag" /></span><span class="tn"><span class="tt">{s.t1}</span><span class="td">{s.t1c}</span></span><span class="ta neg num">−£42.80</span></div>
-  <div class="txn"><span class="ti tint-ac"><Icon name="arrowup" /></span><span class="tn"><span class="tt">{s.t2}</span><span class="td">{s.t2c}</span></span><span class="ta pos num">+£2,400</span></div>
-  <div class="txn"><span class="ti tint-yellow"><Icon name="cup" /></span><span class="tn"><span class="tt">{s.t3}</span><span class="td">{s.t3c}</span></span><span class="ta neg num">−£3.50</span></div>
+<div class="content padnav">
+  <div class="hero">
+    <div class="toprow">
+      <div>
+        <div class="over" style="opacity:.72;color:var(--heroSub)">{s.greet}</div>
+        <div style="font-size:15px;font-weight:800;margin-top:1px">{s.name}</div>
+      </div>
+      <div class="grow"></div>
+      <div class="hib"><Icon name="eye" /></div>
+      <div class="hib"><Icon name="bell" /><span class="notifDot"></span></div>
+    </div>
+    <div style="min-height:120px;display:flex;flex-direction:column;justify-content:center">
+      <div class="lbl">{s.safeToSpend}</div>
+      <div class="big tnum"><span class="cur">£</span><span id={live ? "stsAmt" : undefined}>1,446</span></div>
+      <div class="sub">£880 {s.frozenInGoals}</div>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:14px;display:flex;justify-content:center;gap:6px">
+      <span style="width:18px;height:6px;border-radius:3px;background:#fff"></span>
+      <span style="width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.45)"></span>
+    </div>
+  </div>
+
+  <div class="sectit"><div class="t">{s.accounts}</div></div>
+  <div style="display:flex;gap:13px;margin:0 -20px 4px;padding:4px 20px 8px;overflow:hidden">
+    <div class="bankcard" style="background:linear-gradient(150deg,#ec1623,#a5121b)">
+      <span class="bc-orb" style="width:98px;height:98px;top:-34px;right:-26px"></span>
+      <div class="btop"><span class="bname">HSBC</span><Icon name="contactless" class="" /></div>
+      <div><div class="bavl">{s.available}</div><div class="bbig tnum"><span class="cur">£</span>426</div><div class="brow" style="opacity:.92"><Icon name="lock" /> £880 {s.lockedGoals}</div></div>
+    </div>
+    <div class="bankcard" style="background:linear-gradient(150deg,#3a3f66,#23263f)">
+      <span class="bc-orb" style="width:98px;height:98px;top:-34px;right:-26px"></span>
+      <div class="btop"><span class="bname">Revolut</span><Icon name="contactless" class="" /></div>
+      <div><div class="bavl">{s.available}</div><div class="bbig tnum"><span class="cur">£</span>980</div><div class="brow" style="opacity:.9"><Icon name="check" /> {s.fullyAvailable}</div></div>
+    </div>
+  </div>
+
+  <div class="tile">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+      <div class="over">{s.thisMonth}</div><div style="flex:1"></div>
+      <span class="pill pill-green tnum">{s.net} +£2,166</span>
+      <Icon name="chev" class="" />
+    </div>
+    <div style="display:flex;align-items:center">
+      <div style="flex:1;display:flex;align-items:center;gap:10px"><span class="circ" style="width:34px;height:34px;border-radius:11px;background:color-mix(in srgb,var(--success) 15%,transparent);color:var(--success)"><Icon name="arrowUp" stroke-width="2.4" /></span><div><div style="font-size:11px;color:var(--muted);font-weight:700">{s.income}</div><div class="tnum" style="font-size:17px;font-weight:800;color:var(--success)">+£2,586</div></div></div>
+      <div style="width:1px;background:var(--line);align-self:stretch;margin:2px 14px"></div>
+      <div style="flex:1;display:flex;align-items:center;gap:10px"><span class="circ" style="width:34px;height:34px;border-radius:11px;background:color-mix(in srgb,var(--red) 15%,transparent);color:var(--red)"><Icon name="arrowDown" stroke-width="2.4" /></span><div><div style="font-size:11px;color:var(--muted);font-weight:700">{s.spent}</div><div class="tnum" style="font-size:17px;font-weight:800;color:var(--red)">−£420</div></div></div>
+    </div>
+  </div>
+
+  <div class="tile" style="margin-bottom:0">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="display:flex;align-items:center;gap:12px"><span class="circ" style="width:42px;height:42px;border-radius:13px;background:var(--blueDim);color:var(--blue)"><Icon name="bills" /></span><div><div class="over">{s.billsDue}</div><div class="tnum" style="font-size:21px;font-weight:800">£28 <span style="font-size:13px;color:var(--muted);font-weight:700">{s.due}</span></div></div></div>
+      <Icon name="chev" class="" />
+    </div>
+    <div class="pbar" style="margin-top:13px"><i style="width:64%;background:var(--blue)"></i></div>
+  </div>
 </div>
 <ScreenNav active="home" />
