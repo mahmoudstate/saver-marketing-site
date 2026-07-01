@@ -411,7 +411,10 @@
   .hero-grid { grid-template-columns: 1fr; text-align: center; }
   .hero-copy { max-width: 620px; margin-inline: auto; }
   .hero .lead { margin-inline: auto; }
-  .hero-cta, .hero-badges { justify-content: center; }
+  /* Stack the hero CTA cleanly and centre everything on smaller screens. */
+  .hero-cta { flex-direction: column; align-items: center; gap: 20px; }
+  .hero-badges { justify-content: center; }
+  .store-badges { justify-content: center; width: 100%; }
   .hero-stage { margin-top: 30px; }
   .ps-grid, .priv-card, .bi-grid, .price-card { grid-template-columns: 1fr; }
   .priv-card, .price-card { text-align: center; }
