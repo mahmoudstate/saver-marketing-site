@@ -7,12 +7,12 @@ export type Lang = keyof typeof languages;
 export const ui = {
   en: {
     "site.name": "Saver",
-    "site.tagline": "See what's safe to spend — and save calmly.",
+    "site.tagline": "See what's safe to spend, and save with a calm mind.",
     "nav.features": "Features",
     "nav.pricing": "Pricing",
     "nav.about": "About",
     "nav.download": "Download",
-    "cta.try": "Try free",
+    "cta.try": "Get the app",
     "dir": "ltr",
     // page <title> / meta description
     "home.title": "Saver — Offline budgeting & expense tracker",

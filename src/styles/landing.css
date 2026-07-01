@@ -44,6 +44,27 @@
 .btn-sm { height: 42px; padding-inline: 18px; font-size: .92rem; }
 [dir="rtl"] .btn svg.dir { transform: scaleX(-1); }
 
+/* ---- Store badges ---- */
+.store-badges { display: flex; flex-wrap: wrap; gap: 12px; }
+.store-badge {
+  display: inline-flex; align-items: center; gap: 11px; position: relative;
+  height: 56px; padding: 0 18px 0 16px; border-radius: 14px;
+  background: var(--text); color: var(--bg);
+  border: 1px solid var(--text);
+}
+[data-theme="light"] .store-badge { background: #111318; color: #fff; border-color: #111318; }
+.store-badge svg { width: 26px; height: 26px; flex: none; }
+.store-badge .sb-txt { display: flex; flex-direction: column; line-height: 1.1; text-align: start; }
+.store-badge .sb-txt small { font-size: .66rem; font-weight: 500; opacity: .8; }
+.store-badge .sb-txt b { font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
+.store-badge .sb-soon {
+  position: absolute; inset-block-start: -8px; inset-inline-end: 8px;
+  font-size: .6rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  background: var(--ac); color: var(--on-ac); padding: 2px 7px; border-radius: 999px;
+}
+.store-badges.sm .store-badge { height: 48px; }
+.store-badges.sm .store-badge .sb-txt b { font-size: .95rem; }
+
 /* ============================================================ NAVBAR */
 .nav {
   position: fixed; inset-block-start: 0; inset-inline: 0; z-index: 100;
@@ -93,6 +114,10 @@
 [data-theme="dark"] .hero h1 .ac { background: linear-gradient(120deg, var(--ac2), var(--ac)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .lead { font-size: clamp(1.08rem, 1.6vw, 1.32rem); color: var(--muted); max-width: 48ch; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+.hero-how { display: inline-flex; align-items: center; gap: 5px; font-weight: 700; font-size: .95rem; color: var(--ac-ink); }
+.hero-how svg { width: 16px; height: 16px; transition: transform .2s; }
+.hero-how:hover svg { transform: translateX(3px); }
+[dir="rtl"] .hero-how:hover svg { transform: scaleX(-1) translateX(3px); }
 .hero-badges { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 34px; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); font-weight: 500; }
 .hero-badge svg { width: 16px; height: 16px; color: var(--ac-ink); }
@@ -315,6 +340,12 @@
 
 /* ============================================================ TESTIMONIALS */
 .tst-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.tst-marquee { overflow: hidden; padding-block: 8px 4px; -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.tst-track { display: flex; gap: 20px; width: max-content; animation: scroll-x 60s linear infinite; }
+.tst-marquee:hover .tst-track { animation-play-state: paused; }
+[dir="rtl"] .tst-track { animation-direction: reverse; }
+@media (prefers-reduced-motion: reduce) { .tst-track { animation: none; flex-wrap: wrap; width: auto; justify-content: center; } }
+.tst-track .tst { width: 360px; flex: none; }
 .tst { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px; display: flex; flex-direction: column; gap: 16px; }
 .tst .stars { display: flex; gap: 3px; color: #F5A623; }
 .tst .stars svg { width: 16px; height: 16px; }

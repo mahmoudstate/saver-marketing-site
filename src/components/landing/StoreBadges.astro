@@ -1,0 +1,20 @@
+---
+// App Store + Google Play badges. Links are placeholders (aria-disabled) until
+// the app ships; swap `href` in when the store listings are live.
+const { lang = "en", size = "md" } = Astro.props as { lang?: string; size?: "md" | "sm" };
+const soon = lang === "ar" ? "قريبًا" : "Coming soon";
+const getOn = lang === "ar" ? "متوفّر على" : "Get it on";
+const dlOn = lang === "ar" ? "حمّله من" : "Download on the";
+---
+<div class={`store-badges ${size}`} aria-label={lang === "ar" ? "روابط المتاجر قريبًا" : "App stores, coming soon"}>
+  <span class="store-badge" role="link" aria-disabled="true">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M16.5 12.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.2 2-1.4 2.4-.4 6 .9 7.9.7.9 1.4 2 2.4 1.9 1-.04 1.3-.6 2.5-.6s1.5.6 2.5.6 1.7-.9 2.3-1.8c.7-1 1-2 1-2.1 0 0-1.9-.7-2.1-2.9ZM14.7 6.3c.5-.7.9-1.6.8-2.6-.8 0-1.8.5-2.4 1.2-.5.6-1 1.6-.8 2.5.9.1 1.8-.4 2.4-1.1Z"/></svg>
+    <span class="sb-txt"><small>{dlOn}</small><b>App Store</b></span>
+    <span class="sb-soon">{soon}</span>
+  </span>
+  <span class="store-badge" role="link" aria-disabled="true">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34D399" d="M4 3.2c-.3.2-.5.5-.5 1v15.6c0 .5.2.8.5 1l8.3-8.4L4 3.2Z"/><path fill="#60A5FA" d="m14.7 9.9-2.4-1.4L4.3 3.1c-.2-.1-.4-.1-.6 0L13 12l1.7-2.1Z"/><path fill="#F2766E" d="M4 20.8c.2.1.4.1.6 0l8-4.6 2.1-1.2L13 12l-9 8.8Z"/><path fill="#FBBF24" d="m18.6 10.7-2.9-1.7L13.7 12l2 2.9 2.9-1.6c.6-.4.6-1.2 0-1.6Z"/></svg>
+    <span class="sb-txt"><small>{getOn}</small><b>Google Play</b></span>
+    <span class="sb-soon">{soon}</span>
+  </span>
+</div>

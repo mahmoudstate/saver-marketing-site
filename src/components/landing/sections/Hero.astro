@@ -2,9 +2,9 @@
 import Icon from "../Icon.astro";
 import Phone from "../Phone.astro";
 import HomeScreen from "../screens/HomeScreen.astro";
+import StoreBadges from "../StoreBadges.astro";
 const { c, lang } = Astro.props as { c: any; lang: string };
 const h = c.hero;
-const base = `/${lang}`;
 ---
 <section class="hero wrap" id="hero">
   <div class="hero-grid">
@@ -12,9 +12,9 @@ const base = `/${lang}`;
       <span class="eyebrow" data-hero>{h.eyebrow}</span>
       <h1 data-hero>{h.h1a}<span class="ac">{h.h1b}</span>{h.h1c}</h1>
       <p class="lead" data-hero>{h.lead}</p>
-      <div class="hero-cta" data-hero>
-        <a class="btn btn-primary" href={`${base}/download`}><Icon name="arrow" class="dir" /><span>{h.cta1}</span></a>
-        <a class="btn btn-ghost" href="#how"><Icon name="play" /><span>{h.cta2}</span></a>
+      <div class="hero-cta" data-hero style="align-items:center">
+        <StoreBadges lang={lang} />
+        <a class="hero-how" href="#how"><span>{h.cta2}</span><Icon name="chev" class="dir" size={16} /></a>
       </div>
       <div class="hero-badges" data-hero>
         <span class="hero-badge"><Icon name="check" /><span>{h.b1}</span></span>
