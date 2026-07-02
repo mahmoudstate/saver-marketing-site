@@ -25,13 +25,18 @@ const dir = dirFor(lang);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="/icon.png" />
-    {/* No-flash theme bootstrap — runs before paint. Saved choice wins; first
-        visit falls back to the OS's own light/dark setting. */}
+    {/* No-flash theme bootstrap — runs before paint. A `?theme=` param (from
+        an in-app deep link, e.g. the app's own Privacy card) wins over
+        everything, including a stale saved choice from a past visit —
+        otherwise the app can never actually hand off its current theme.
+        Failing that: saved choice, then the OS's light/dark setting. */}
     <script is:inline>
       (function () {
         try {
-          var saved = localStorage.getItem("saver-theme");
-          var t = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+          var fromLink = new URLSearchParams(location.search).get("theme");
+          var t = fromLink === "light" || fromLink === "dark" ? fromLink
+            : localStorage.getItem("saver-theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+          if (fromLink) localStorage.setItem("saver-theme", t);
           document.documentElement.setAttribute("data-theme", t);
         } catch (e) {}
       })();
