@@ -17,7 +17,10 @@ function applyTheme(t: string) {
     icon.innerHTML = t === "dark" ? sun : moon;
   });
 }
-let theme = localStorage.getItem("saver-theme") || "dark";
+// The no-flash bootstrap in Base.astro already set data-theme on <html> before
+// paint (honoring a saved choice, or the system's prefers-color-scheme as a
+// fallback) — read it back here instead of re-deciding, so the two never drift.
+let theme = root.getAttribute("data-theme") || "dark";
 applyTheme(theme);
 document.querySelectorAll(".js-theme").forEach((btn) => {
   btn.addEventListener("click", () => {

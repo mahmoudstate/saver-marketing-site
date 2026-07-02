@@ -12,23 +12,38 @@ const lang = Astro.params.lang as Lang;
 const t = useTranslations(lang);
 const ar = lang === "ar";
 
+const lastUpdated = ar ? "آخر تحديث: 2 يوليو 2026" : "Last updated: July 2, 2026";
+
 const points = ar
   ? [
       { h: "1. يعمل بلا إنترنت 100% (تخزين محلي)", p: "صُمّم Saver ليعمل بلا إنترنت تمامًا. كل حساباتك وميزانياتك ومصاريفك اليومية تُحفظ بأمان داخل التخزين المحلي لجهازك فقط." },
       { h: "2. صفر جمع للبيانات", p: "لا نملك خوادم خارجية لجمع بياناتك، ولا نتتبّع تحرّكاتك داخل التطبيق. معلوماتك المالية لك وحدك، ولا يصل إليها أي طرف ثالث." },
-      { h: "3. أمان البيانات", p: "يعتمد التطبيق على التخزين المحلي لمتصفّح جهازك. بياناتك لا تغادر جهازك ولا تُرسَل عبر أي شبكة. ننصح دائمًا باستخدام ميزة النسخ الاحتياطي المدمجة." },
+      { h: "3. أمان البيانات", p: "يعتمد التطبيق على التخزين المحلي لجهازك. بياناتك لا تغادر جهازك ولا تُرسَل عبر أي شبكة. ننصح دائمًا باستخدام ميزة النسخ الاحتياطي المدمجة." },
       { h: "4. أمان الجهاز", p: "بياناتك محمية بميزات الأمان الأصلية لجهازك. ننصح بتفعيل قفل الشاشة وكلمة المرور لأقصى حماية." },
+      { h: "5. قفل التطبيق ببصمة الوجه أو الإصبع", p: "لو فعّلت قفل التطبيق، التحقق (Face ID / Touch ID أو رمز PIN) بيتم بالكامل عن طريق نظام iOS نفسه. بيانات بصمتك لا تُخزَّن ولا تصل إلينا أو لأي طرف آخر إطلاقًا — Saver بيستقبل بس نتيجة \"تم التحقق\" من النظام." },
+      { h: "6. النسخة الاحتياطية المشفّرة", p: "بياناتك ما بتخرجش من جهازك إلا لو أنت بنفسك اخترت تصدير نسخة احتياطية. النسخة تتشفّر بكلمة مرور تختارها أنت (AES-256)، وتحفظها إنت في مكان تختاره — إحنا مالناش أي وصول ليها." },
+      { h: "7. الإشعارات", p: "تذكيرات الفواتير والأقساط بتتجدول محليًا على جهازك عن طريق نظام iOS، من غير أي سيرفر أو خدمة إشعارات خارجية. مفيش أي بيانات بترسل لنا عشان تظهرلك الإشعارات دي." },
+      { h: "8. حذف بياناتك", p: "تقدر تمسح كل بياناتك من داخل التطبيق في أي وقت (الخصوصية والنسخ الاحتياطي ← إعادة ضبط كل البيانات). وبما إننا أصلًا مش بنحتفظ بأي نسخة على أي سيرفر، المسح من جهازك يعني إن بياناتك اتمسحت تمامًا." },
+      { h: "9. خصوصية الأطفال", p: "Saver مش موجّه للأطفال تحت 13 سنة، ومش بنجمع بيانات عن قصد من أي حد في السن ده." },
+      { h: "10. تواصل معنا", p: "لو عندك أي سؤال عن الخصوصية، راسلنا على hello@savertrack.app." },
     ]
   : [
       { h: "1. 100% Offline (Local Storage)", p: "Saver is designed to work completely offline. All your accounts, budgets, and daily expenses are stored solely within your device's local storage." },
       { h: "2. Zero Data Collection", p: "We do not own external servers to collect your data, nor do we track your movements within the app. Your financial information is yours alone." },
       { h: "3. Data Safety", p: "The app relies on your device's local storage. Your data never leaves your device and is never transmitted over any network. We recommend using the built-in Backup feature." },
       { h: "4. Device Security", p: "Your data is protected by your device's native security features. We recommend keeping your screen lock and passcode enabled." },
+      { h: "5. Face ID / Touch ID App Lock", p: "If you enable App Lock, verification (Face ID, Touch ID, or a PIN) is handled entirely by iOS itself. Your biometric data is never stored by, or shared with, Saver or anyone else — the app only receives a pass/fail result from the system." },
+      { h: "6. Encrypted Backup", p: "Your data never leaves your device unless you explicitly export a backup. That file is encrypted with a password you choose (AES-256), and you decide where to keep it — we never have access to it." },
+      { h: "7. Notifications", p: "Bill and installment reminders are scheduled locally on your device by iOS itself — no server or third-party notification service is involved, and no data is sent to us to make them appear." },
+      { h: "8. Deleting Your Data", p: "You can erase all your data from within the app at any time (Privacy & Backup → Reset All Data). Since we never keep a copy anywhere else, deleting it on your device means it's gone for good." },
+      { h: "9. Children's Privacy", p: "Saver is not directed at children under 13, and we do not knowingly collect data from anyone in that age group." },
+      { h: "10. Contact Us", p: "Questions about this policy? Reach us at hello@savertrack.app." },
     ];
 ---
 <Base lang={lang} title={t("privacy.title")} description={t("privacy.desc")}>
   <section class="mx-auto max-w-2xl px-5 py-20">
     <h1 class="text-3xl font-extrabold tracking-tight">{ar ? "سياسة الخصوصية" : "Privacy Policy"}</h1>
+    <p class="mt-2 text-sm font-bold text-faint">{lastUpdated}</p>
     <div class="mt-8 space-y-6">
       {points.map((pt) => (
         <div class="rounded-2xl border border-line bg-card p-5">

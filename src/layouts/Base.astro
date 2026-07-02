@@ -25,11 +25,13 @@ const dir = dirFor(lang);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="/icon.png" />
-    {/* No-flash theme bootstrap — runs before paint. */}
+    {/* No-flash theme bootstrap — runs before paint. Saved choice wins; first
+        visit falls back to the OS's own light/dark setting. */}
     <script is:inline>
       (function () {
         try {
-          var t = localStorage.getItem("saver-theme") || "dark";
+          var saved = localStorage.getItem("saver-theme");
+          var t = saved || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
           document.documentElement.setAttribute("data-theme", t);
         } catch (e) {}
       })();
